@@ -2,28 +2,17 @@ class Api::V1::UsersController < Api::V1::ApiController
   before_action :authenticate!, only: [:destroy, :update]
 
   def create
-    if user_params[:email]
+    if user_params[:email].nil?
       render json: { error: { user: 'email is missing' } }
-    elsif user_params[:password]
+    elsif user_params[:password].nil?
       render json: { error: { user: 'password is missing' } }
     else
-      data = {
-        provider: user_params[:email],
-        uid: user_params[:email],
-        info: {
-          password: user_params[:password],
-          email: user_params[:email],
-          username: user_params[:username],
-          name: user_params[:name],
-          last_name: user_params[:last_name]
-        }
-      }
-      @user = User.from_omniauth(data)
-      if @user
+      @user = User.new(user_params)
+      if @user.save
         @session = @user.sessions.create()
         render template: 'api/v1/users/show', status: 200
       else
-        render json: { error: { user: @user.errors} }, status: :bad_request
+        render json: { error: { user: @user.errors.full_messages} }, status: :bad_request
       end
     end
   end
@@ -32,7 +21,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     if @current_user.update(user_update_params)
       render template: 'api/v1/users/show', status: 200
     else
-      render json: { error: { user: @current_user.errors } }, status: :unprocessable_entity
+      render json: { error: { user: @current_user.errors.full_messages } }, status: :unprocessable_entity
     end
   end
 
@@ -40,7 +29,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     if @current_user.destroy
       render json: { message: 'user deleted successfully' }, status: 200
     else
-      render json: { error: { user: @current_user.errors } }, status: :unprocessable_entity
+      render json: { error: { user: @current_user.errors.full_messages } }, status: :unprocessable_entity
     end
   end
 

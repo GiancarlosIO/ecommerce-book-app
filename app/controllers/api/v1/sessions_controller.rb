@@ -1,5 +1,6 @@
 class Api::V1::SessionsController < Api::V1::ApiController
   before_action :authenticate!, only: [:sign_out, :password]
+  before_action :valid_token?, only: [:password]
 
   def sign_in
     if session_params[:email].nil?

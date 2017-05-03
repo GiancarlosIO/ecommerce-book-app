@@ -14,12 +14,17 @@ class ApplicationController < ActionController::Base
       token = Session.find_by(token: token_str)
       if token.nil?
         render json: { error: 'Invalid token' }, status: :unauthorized
-      elsif !token.is_valid?
-        token.destroy!
-        render json: { error: 'Token has expired, sign_in again for get a new token' }, status: :unauthorized
       else
+        @token = token
         @current_user = token.user
       end
+    end
+  end
+
+  def valid_token?
+    if !@token.is_valid?
+      @token.destroy!
+      render json: { error: 'Token has expired, sign_in again for get a new token' }, status: :unauthorized
     end
   end
 end
