@@ -5,10 +5,13 @@ import { Button, Col, Row, Panel } from 'react-bootstrap';
 import FieldForm from './field';
 import { validateSigninForm } from './form-validations/';
 
+import { signinUser } from '../../actions/auth-actions';
+
 export class SignIn extends Component {
 
   onSubmit = (values, dispatch, formProps) => {
     console.log('Sign in form', values);
+    this.props.dispatch(signinUser(values.email, values.password));
   }
 
   render() {

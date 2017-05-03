@@ -1,22 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, SubmissionError, Field } from 'redux-form';
-import { Button, Panel, Row, Col } from 'react-bootstrap';
+import { Button, Panel, Row, Col, Alert, Glyphicon } from 'react-bootstrap';
 import FieldForm from './field';
-
+// forms validations
 import { validateRegisterForm } from './form-validations/';
+// actions
+import { signupUser } from '../../actions/auth-actions';
 
 export class Register extends Component {
 
   onSubmit = (values, dispatch, formProps) => {
     console.log('register form', values);
+    dispatch(signupUser(values.email, values.password));
   }
 
   renderErrors = () => {
     const { errors } = this.props;
     if (errors) {
-      let errorsArray = errors.map((error, index) => (<li key={index}>{error}</li>));
-      return (<div><ul>{errorsArray}</ul></div>);
+      let errorsArray = errors.map((error, index) => (
+        <Alert key={index} bsStyle="warning">
+          <Glyphicon glyph="warning-sign" />  {error}
+        </Alert>
+      ));
+      return (<div>{errorsArray}</div>);
     }
   }
 
@@ -46,7 +53,7 @@ export class Register extends Component {
                 component={FieldForm}
                 label="Password confirmation"
               />
-              <Button type="submit" bsStyle="primary" block>
+              <Button type="submit" bsStyle="primary" block >
                 Register
               </Button>
             </form>
@@ -62,4 +69,10 @@ const RegisterConfigured = reduxForm({
   validate: validateRegisterForm
 })(Register);
 
-export default connect()(RegisterConfigured);
+function mapStateToProps(state) {
+  return {
+    errors: state.auth.errors
+  }
+}
+
+export default connect(mapStateToProps)(RegisterConfigured);
