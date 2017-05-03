@@ -7,11 +7,11 @@ import {
 
 const initialState = {
   authenticated: false,
-  errors: [],
+  errors: null,
   user: null
 };
 
-export const AuthReducer = (state=initialState, action) => {
+const AuthReducer = (state=initialState, action) => {
   switch (action.type) {
     case AUTH_USER:
       return {
@@ -41,3 +41,5 @@ export const AuthReducer = (state=initialState, action) => {
       return state;
   }
 }
+
+export default AuthReducer;
