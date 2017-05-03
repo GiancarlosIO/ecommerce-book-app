@@ -1,11 +1,11 @@
 class User < ApplicationRecord
-  validates :email, presence: true
+  validates :email, presence: true, uniqueness: true
 
   has_secure_password
   has_many :sessions, dependent: :destroy
 
   def self.from_omniauth(data={})
-    User.where(provider: data[:provider], uid: data[:uid]).first_or_create do |user|
+    User.where(provider: data[:info][:email]).first_or_create do |user|
       user.password = data[:info][:password]
       user.email = data[:info][:email]
       user.name = data[:info][:name]

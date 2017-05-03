@@ -42,6 +42,9 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     arel (8.0.0)
     bcrypt (3.1.11)
+    bcrypt (3.1.11-java)
+    bcrypt (3.1.11-x64-mingw32)
+    bcrypt (3.1.11-x86-mingw32)
     bindex (0.5.0)
     builder (3.2.3)
     byebug (9.0.6)
@@ -65,6 +68,8 @@ GEM
     concurrent-ruby (1.0.5-java)
     erubi (1.6.0)
     execjs (2.7.0)
+    faker (1.7.3)
+      i18n (~> 0.5)
     faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
@@ -228,6 +233,7 @@ DEPENDENCIES
   byebug
   capybara (~> 2.13.0)
   coffee-rails (~> 4.2)
+  faker
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   omniauth
