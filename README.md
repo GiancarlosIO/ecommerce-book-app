@@ -1,5 +1,5 @@
-# Rails-5.1 React boilerplate
-A boilerplate built with rails 5.1, react and redux
+# Ecommerce-books
+simple Ecommerce books app for learning purposes built with rails, react and redux
 
 # Libs used for development:
 - asyncawait: '1.0.6'
