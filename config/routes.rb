@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: 'json'} do
     namespace :v1 do
+      resources :products
       scope 'users' do
         post '/', to: 'users#create'
         delete '/', to: 'users#delete'
