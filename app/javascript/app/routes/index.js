@@ -27,7 +27,7 @@ export default (
         <Route path="/register" component={HideAuth(Register)} />
         <Route path="/sign_in" component={HideAuth(SignIn)} />
         <Route path="/profile" component={RequireAuth(Profile)} />
-        <Route path="/products" component={HideAuth(Products)} />
+        <Route path="/products" component={Products} />
         <Route component={NotFound} />
       </Switch>
       <footer />
