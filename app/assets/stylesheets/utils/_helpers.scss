@@ -1,0 +1,50 @@
+.text {
+  // font-size
+  &-min { font-size: 12px; }
+  &-title { font-size: 16px; }
+  // colors
+  &-black { color: $black; }
+  &-white { color: $white; }
+  // weight
+  &-bold { font-weight: bold; }
+}
+
+.bg {
+  &-light-blue { background-color: $light-blue; }
+  &-green { background-color: $green; }
+}
+
+.margin {
+  &-none { margin: 0; }
+  &-rightLeft-10 { margin-right: 10px; margin-left: 10px; }
+  &-bottom-8 { margin-bottom: 8px; }
+  &-bottom-20 { margin-bottom: 20px; }
+}
+
+.padding {
+  &-min { padding: 4px 6px; }
+  &-10 { padding: 10px; }
+}
+
+.img {
+  &-card { width: 200px; height: 200px; }
+}
+
+.cursor {
+  &-pointer { cursor: pointer; }
+}
+
+.flex {
+  display: flex;
+  &-row { flex-direction: row; }
+  &-rowWrap { flex-flow: row wrap; }
+  &-column { flex-direction: column; }
+  &-columnWrap { flex-flow: column wrap; }
+  &-justifyAround { justify-content: space-around; }
+  &-justifyBetween { justify-content: space-between; }
+  &-alignCenter { align-items: center; }
+}
+
+.border {
+  &-radius-4 { border-radius: 4px; }
+}

@@ -27,7 +27,7 @@ export class ProductList extends Component {
     return (
       <div>
         <h1>Products</h1>
-        <div className="product-card-container">
+        <div className="product-card-container flex flex-rowWrap flex-justifyBetween flex-alignItems">
           { this.renderProducts() }
         </div>
       </div>
