@@ -11,7 +11,6 @@ const initialState = {
 export default function(state=initialState, action) {
   switch (action.type) {
     case SET_CATEGORIES:
-      console.log('from reducer', action);
       return {
         ...state,
         all: action.payload

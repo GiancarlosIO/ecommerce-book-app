@@ -3,7 +3,9 @@ class Api::V1::ProductsController < Api::V1::ApiController
 
   def index
     @categories = Category.all
-    @products = Product.all
+    per_page = 12
+    @pages = Product.count % per_page > 0 ? (Product.count / 12) + 1 : Product.count
+    @products = Product.all.paginate(page: params[:page], per_page: per_page)
   end
 
   def show
