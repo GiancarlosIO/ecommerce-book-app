@@ -18,13 +18,12 @@ export class ProductList extends Component {
   handleScroll = _.throttle((e) => {
     const { dispatch, loadingPerPage, pages, pagesShowing } = this.props;
     if (pagesShowing < pages) {
-      console.log('function throttle');
       const documentHeight = document.body.offsetHeight;
       const scrollFromTop = window.scrollY;
       const windowHeight = window.innerHeight;
       if ( scrollFromTop + windowHeight >= documentHeight - 200 ) {
         if ( !loadingPerPage ) {
-          console.log('starting ajax');
+          console.log('starting ajax for get more products');
           dispatch(setLoadingPerPage(true));
           dispatch(getProductsPerPage(pagesShowing + 1));
         }
