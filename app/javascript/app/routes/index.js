@@ -6,6 +6,8 @@ import App from '../components/app';
 import NotFound from '../components/public-pages/not-found';
 // Products
 import Products from '../components/products/';
+// Products details
+import ProductDetails from '../components/product-details/';
 // Layout
 import Header from '../components/navigation/header';
 import Footer from '../components/navigation/footer';
@@ -27,7 +29,8 @@ export default (
         <Route path="/register" component={HideAuth(Register)} />
         <Route path="/sign_in" component={HideAuth(SignIn)} />
         <Route path="/profile" component={RequireAuth(Profile)} />
-        <Route path="/products" component={HideAuth(Products)} />
+        <Route exact path="/products/:id" component={ProductDetails} />
+        <Route exact path="/products" component={Products} />
         <Route component={NotFound} />
       </Switch>
       <footer />
