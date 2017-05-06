@@ -6,7 +6,8 @@ import {
   SELECT_PRODUCT,
   UPDATE_PRODUCT,
   LOADING,
-  LOADING_PER_PAGE
+  LOADING_PER_PAGE,
+  ERROR_TO_GET_PRODUCT
 } from '../constants/';
 
 const initialState = {
@@ -16,7 +17,8 @@ const initialState = {
   pages: null,
   pagesShowing: null,
   loading: false,
-  loadingPerPage: false
+  loadingPerPage: false,
+  errorToGetProduct: null
 }
 
 export default function(state=initialState, action) {
@@ -66,6 +68,12 @@ export default function(state=initialState, action) {
       return {
         ...state,
         loadingPerPage: action.payload
+      }
+    case ERROR_TO_GET_PRODUCT:
+      return {
+        ...state,
+        productSelected: null,
+        errorToGetProduct: action.payload
       }
     default:
       return state;
