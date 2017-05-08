@@ -42,6 +42,8 @@
 .margin {
   &-none { margin: 0 !important; }
   &-right { margin-right: 20px; }
+  &-right-5 { margin-right: 5px; }
+  &-left-15 { margin-left: 15px; }
   &-rightLeft-10 { margin-right: 10px; margin-left: 10px; }
   &-bottom-8 { margin-bottom: 8px; }
   &-bottom-20 { margin-bottom: 20px; }
@@ -80,4 +82,8 @@
 
 .border {
   &-radius-4 { border-radius: 4px; }
+}
+
+.vertical-align {
+  &-middle { vertical-align: middle !important; }
 }

@@ -2,13 +2,17 @@ import {
   AUTH_USER,
   UNAUTH_USER,
   AUTH_ERROR,
-  SET_USER_DATA
+  SET_USER_DATA,
+  SET_CREDIT_CARDS,
+  SET_DEFAULT_CARD
 } from '../constants/';
 
 const initialState = {
   authenticated: false,
   errors: null,
-  user: null
+  user: null,
+  creditCardDefault: null,
+  creditCards: null
 };
 
 const AuthReducer = (state=initialState, action) => {
@@ -37,6 +41,16 @@ const AuthReducer = (state=initialState, action) => {
         user: action.payload,
         errors: []
       };
+    case SET_CREDIT_CARDS:
+      return {
+        ...state,
+        creditCards: action.payload
+      };
+    case SET_DEFAULT_CARD:
+      return {
+        ...state,
+        creditCardDefault: action.payload
+      }
     default:
       return state;
   }

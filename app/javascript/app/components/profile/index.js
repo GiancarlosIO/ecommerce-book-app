@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
+import { Grid, Row, Column } from 'react-bootstrap';
 import { connect } from 'react-redux';
+
+import ProfileInfo from './info';
+import ProfileCards from './cards';
 
 export class Profile extends Component {
   render() {
+    const { user } = this.props;
+
     return (
-      <div>
-        <h1>Profile component</h1>
-      </div>
+      <Grid>
+        <Row>
+          <ProfileInfo {...user}/>
+        </Row>
+        <Row>
+          <ProfileCards />
+        </Row>
+      </Grid>
     )
   }
 }
 
-export default connect()(Profile);
+const mapStateToProps = (state) => ({ user: state.auth.user });
+
+export default connect(mapStateToProps)(Profile);

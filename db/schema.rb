@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504032656) do
+ActiveRecord::Schema.define(version: 20170508232243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cards", force: :cascade do |t|
+    t.string "last_four"
+    t.string "identifier"
+    t.string "fingerprint"
+    t.string "brand"
+    t.integer "exp_month"
+    t.integer "exp_year"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_cards_on_user_id"
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -57,7 +70,9 @@ ActiveRecord::Schema.define(version: 20170504032656) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
+    t.string "customer_id"
   end
 
+  add_foreign_key "cards", "users"
   add_foreign_key "sessions", "users"
 end
