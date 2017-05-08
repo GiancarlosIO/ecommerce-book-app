@@ -6,7 +6,8 @@ import {
   SELECT_PRODUCT,
   UPDATE_PRODUCT,
   LOADING,
-  LOADING_PER_PAGE
+  LOADING_PER_PAGE,
+  ERROR_TO_GET_PRODUCT
 } from '../constants/';
 
 import {
@@ -21,6 +22,7 @@ export const selectProduct = (product) => ({ type: SELECT_PRODUCT, payload: prod
 export const updateNote = (product) => ({ type: UPDATE_PRODUCT, payload: product });
 export const loadingProducts = (loading) => ({ type: LOADING, payload: loading });
 export const setLoadingPerPage = (loadingPerPage) => ({ type: LOADING_PER_PAGE, payload: loadingPerPage });
+export const setErrorToGetProduct = (error) => ({ type: ERROR_TO_GET_PRODUCT, payload: error });
 
 export const getProducts = () => {
   return (dispatch, getState, { ProductAPI }) => {
@@ -65,6 +67,22 @@ export const getProductsPerPage = (page) => {
       .catch(error => {
         console.log('error to get products by page', error.response);
         dispatch(setLoadingPerPage(false));
+      })
+  }
+};
+
+export const getProductById = (id) => {
+  return (dispatch, getState, { ProductAPI }) => {
+    return ProductAPI.getProductById(id).request
+      .then(response => {
+        console.log('get product succcessfully');
+        dispatch(selectProduct(response.data.product));
+      })
+      .catch(error => {
+        console.log('error to get product', error.response);
+        if (error.response.status === 404) {
+          dispatch(setErrorToGetProduct(error.response.data.error));
+        }
       })
   }
 }

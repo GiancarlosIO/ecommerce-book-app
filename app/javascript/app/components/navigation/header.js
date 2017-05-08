@@ -30,7 +30,7 @@ export class Header extends Component {
   render() {
     const { authenticated } = this.props;
     return (
-      <Navbar inverse collapseOnSelect>
+      <Navbar inverse collapseOnSelect fluid className="margin-none">
         <Navbar.Header>
           <Navbar.Brand>
             <Link to="/">Ecommerce-app</Link>
@@ -45,7 +45,7 @@ export class Header extends Component {
               authenticated &&
               <ul className="nav navbar-nav navbar-right">
                 <li>
-                  <a onClick={this.handleClickSignout} >Sign out</a>
+                  <a className="cursor-pointer" onClick={this.handleClickSignout} >Sign out</a>
                 </li>
               </ul>
             }

@@ -18,6 +18,17 @@ const ProductAPI = {
       cancelToken: new CancelToken( c => cancel = c )
     });
     return { request, cancel };
+  },
+  getProductById: (id) => {
+    let CancelToken = axios.CancelToken;
+    let cancel;
+    let request = axios({
+      method: 'get',
+      url: `${BASE_URL}/${id}`,
+      responseType: 'json',
+      cancelToken: new CancelToken( c => cancel = c)
+    });
+    return { request, cancel };
   }
 }
 

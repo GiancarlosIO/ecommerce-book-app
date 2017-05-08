@@ -5,25 +5,53 @@
   // colors
   &-black { color: $black; }
   &-white { color: $white; }
+  &-green-flat { color: $green-flat; }
+  &-red-flat { color: $red-flat; }
+  &-blue-flat { color: $blue-flat }
+  &-dark-blue { color: $dark-blue; }
   // weight
   &-bold { font-weight: bold; }
 }
 
 .bg {
+  &-white { background-color: $white !important;}
+  &-grey { background-color: rgba($black, 0.1); }
   &-light-blue { background-color: $light-blue; }
   &-green { background-color: $green; }
+  &-green-flat { background-color: $green-flat; }
+  &-red-flat { background-color: $red-flat; }
+}
+
+.btn {
+  &-min {
+    padding: 5px 8px;
+  }
+  &-red-flat {
+    border-radius: 4px;
+    background-color: $red-flat;
+    color: $white;
+    border: 1px solid transparent;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    &:hover {
+      box-shadow: 0 10px 5px rgba(0,0,0,0.1);
+    }
+  }
 }
 
 .margin {
-  &-none { margin: 0; }
+  &-none { margin: 0 !important; }
+  &-right { margin-right: 20px; }
   &-rightLeft-10 { margin-right: 10px; margin-left: 10px; }
   &-bottom-8 { margin-bottom: 8px; }
   &-bottom-20 { margin-bottom: 20px; }
+  &-bottom-15 { margin-bottom: 15px; }
 }
 
 .padding {
   &-min { padding: 4px 6px; }
   &-10 { padding: 10px; }
+  &-topBottom-40 { padding-top: 40px; padding-bottom: 40px; }
 }
 
 .img {
@@ -32,6 +60,11 @@
 
 .cursor {
   &-pointer { cursor: pointer; }
+}
+
+.float {
+  &-right { float: right; }
+  &-left { float: left; }
 }
 
 .flex {
