@@ -26,9 +26,9 @@ export class ProductList extends Component {
           console.log('starting ajax for get more products');
           dispatch(setLoadingPerPage(true));
           dispatch(getProductsPerPage(pagesShowing + 1));
-        }
-      }
-    }
+        };
+      };
+    };
   }, 300);
 
   renderProducts = () => {
@@ -43,12 +43,13 @@ export class ProductList extends Component {
   }
 
   render() {
-    const { products, loading } = this.props;
+    const { products, loading, loadingPerPage } = this.props;
     return (
       <div>
         <h1>Products</h1>
-        <div className="product-card-container flex flex-rowWrap flex-justifyBetween flex-alignItems">
+        <div className="product-card-container flex flex-rowWrap flex-justifyAround flex-alignItems">
           { loading ? 'Loading Products' : this.renderProducts() }
+          { loadingPerPage && (<div><h1 className="margin-bottom-20">Loading...</h1></div>) }
         </div>
       </div>
     )

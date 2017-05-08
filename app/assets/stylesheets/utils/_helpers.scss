@@ -14,6 +14,8 @@
 }
 
 .bg {
+  &-white { background-color: $white !important;}
+  &-grey { background-color: rgba($black, 0.1); }
   &-light-blue { background-color: $light-blue; }
   &-green { background-color: $green; }
   &-green-flat { background-color: $green-flat; }
@@ -38,7 +40,7 @@
 }
 
 .margin {
-  &-none { margin: 0; }
+  &-none { margin: 0 !important; }
   &-right { margin-right: 20px; }
   &-rightLeft-10 { margin-right: 10px; margin-left: 10px; }
   &-bottom-8 { margin-bottom: 8px; }
@@ -49,6 +51,7 @@
 .padding {
   &-min { padding: 4px 6px; }
   &-10 { padding: 10px; }
+  &-topBottom-40 { padding-top: 40px; padding-bottom: 40px; }
 }
 
 .img {
