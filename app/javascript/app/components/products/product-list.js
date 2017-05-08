@@ -15,6 +15,10 @@ export class ProductList extends Component {
     window.addEventListener('scroll', this.handleScroll);
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
   handleScroll = _.throttle((e) => {
     const { dispatch, loadingPerPage, pages, pagesShowing } = this.props;
     if (pagesShowing < pages) {
