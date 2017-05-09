@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json'} do
     namespace :v1 do
       resources :products
+      resources :cards, only: [:create, :delete]
+      resources :charges, only: [:create]
       scope 'users' do
         post '/', to: 'users#create'
         delete '/', to: 'users#delete'
