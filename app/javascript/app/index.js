@@ -12,6 +12,7 @@ import RootReducers from './reducers/';
 // APIs
 import AuthAPI from './utils/api/auth-api';
 import ProductAPI from './utils/api/product-api';
+import CardAPI from './utils/api/card-api';
 // utils
 import { verifyToken, getSession } from './utils/api/header-config';
 // configure Redux extension
@@ -23,7 +24,7 @@ const componseEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 // )(createStore);
 // export const store = storeWithMiddlewares(RootReducers);
 export const store = createStore(RootReducers, {}, componseEnhancers(
-  applyMiddleware(ReduxThunk.withExtraArgument({ AuthAPI, ProductAPI }))
+  applyMiddleware(ReduxThunk.withExtraArgument({ AuthAPI, ProductAPI, CardAPI }))
 ));
 
 // validate session

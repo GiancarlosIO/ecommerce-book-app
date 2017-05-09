@@ -1,0 +1,25 @@
+import axios from 'axios';
+import { env } from 'process';
+
+import {
+  getHeadersForRequest
+} from './header-config';
+
+const BASE_URL = env.NODE_ENV = 'test' ? 'http://localhost:3000/api/v1/cards' : '/api/v1/cards';
+
+const CardAPI = {
+  index: () => {
+    let CancelToken = axios.CancelToken;
+    let cancel;
+    let request = axios({
+      method: 'get',
+      url: BASE_URL,
+      headers: getHeadersForRequest(),
+      responseType: 'json',
+      cancelToken: new CancelToken( c => cancel = c )
+    });
+    return { request, cancel };
+  }
+}
+
+export default CardAPI;
