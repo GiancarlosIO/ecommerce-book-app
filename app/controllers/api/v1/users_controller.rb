@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::ApiController
-  before_action :authenticate!, only: [:destroy, :update]
+  before_action :authenticate!, only: [:add_card, :destroy, :update]
 
   def create
     if user_params[:email].nil?
@@ -14,6 +14,15 @@ class Api::V1::UsersController < Api::V1::ApiController
       else
         render json: { error: { user: @user.errors.full_messages} }, status: :bad_request
       end
+    end
+  end
+
+  def add_card
+     @card = @current_user.add_cards(card_params[:token])
+     if @card.class === "String"
+       render json: { error: { card: @card } }, status: :unprocessable_entity
+    else
+      render template: 'api/v1/cards/show', status: 200
     end
   end
 
@@ -34,6 +43,10 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   private
+  def card_params
+    params.require(:card).permit(:token)
+  end
+
   def user_params
     params.require(:user).permit(:email, :password, :username, :name, :last_name)
   end
