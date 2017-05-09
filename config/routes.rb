@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json'} do
     namespace :v1 do
       resources :products
-      resources :cards, only: [:create, :delete]
+      resources :cards, only: [:index, :create, :delete]
       resources :charges, only: [:create]
       scope 'users' do
         post '/', to: 'users#create'
@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         put '/password', to: 'users#password'
         post '/sign_in', to: 'sessions#sign_in'
         delete '/sign_out', to: 'sessions#sign_out'
+        post '/cards', to: 'users#add_card'
       end
     end
   end
