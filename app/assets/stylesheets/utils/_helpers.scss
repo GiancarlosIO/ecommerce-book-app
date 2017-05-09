@@ -43,6 +43,7 @@
   &-none { margin: 0 !important; }
   &-right { margin-right: 20px; }
   &-right-5 { margin-right: 5px; }
+  &-right-10 { margin-right: 10px; }
   &-left-15 { margin-left: 15px; }
   &-rightLeft-10 { margin-right: 10px; margin-left: 10px; }
   &-bottom-8 { margin-bottom: 8px; }
@@ -53,6 +54,8 @@
 .padding {
   &-min { padding: 4px 6px; }
   &-10 { padding: 10px; }
+  &-20 { padding: 20px; }
+  &-bottom-10 { padding-bottom: 10px; }
   &-topBottom-40 { padding-top: 40px; padding-bottom: 40px; }
 }
 
