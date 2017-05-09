@@ -46,11 +46,6 @@ export const signinUser = (email, password) => {
         console.log('signin user successfully', response);
         dispatch(authUser());
         dispatch(setUserData(response.data.user));
-        if (response.data.cards.length > 0) {
-          dispatch(setCreditCards(response.data.cards));
-          const defaultCard = response.data.cards.filter(card => card.default);
-          dispatch(setDefaultCard(defaultCard));
-        }
         setSession(response.data.user, response.data.session);
       })
       .catch(error => {
@@ -75,3 +70,19 @@ export const signoutUser = () => {
   }
 };
 
+export const getCreditCards = () => {
+  return (dispatch, getState, { CardAPI }) => {
+    return CardAPI.index().request
+      .then(response => {
+        console.log('get credit cards successfully', response);
+        if (response.data.cards.length > 0) {
+          dispatch(setCreditCards(response.data.cards));
+          const defaultCard = response.data.cards.filter(card => card.default);
+          dispatch(setDefaultCard(defaultCard));
+        };
+      })
+      .catch(error => {
+        console.log('error to get credit cards', error.response);
+      })
+  }
+}
