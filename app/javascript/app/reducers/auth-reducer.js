@@ -4,7 +4,8 @@ import {
   AUTH_ERROR,
   SET_USER_DATA,
   SET_CREDIT_CARDS,
-  SET_DEFAULT_CARD
+  SET_DEFAULT_CARD,
+  ADD_CREDIT_CARD
 } from '../constants/';
 
 const initialState = {
@@ -51,6 +52,14 @@ const AuthReducer = (state=initialState, action) => {
         ...state,
         creditCardDefault: action.payload
       }
+    case ADD_CREDIT_CARD:
+      return {
+        ...state,
+        creditCards: [
+          ...state.creditCards,
+          action.payload
+        ]
+      };
     default:
       return state;
   }
