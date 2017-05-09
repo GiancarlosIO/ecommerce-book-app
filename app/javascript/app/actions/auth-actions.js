@@ -47,9 +47,9 @@ export const signinUser = (email, password) => {
         dispatch(authUser());
         dispatch(setUserData(response.data.user));
         if (response.data.cards.length > 0) {
-          setCreditCards(response.data.cards);
+          dispatch(setCreditCards(response.data.cards));
           const defaultCard = response.data.cards.filter(card => card.default);
-          setDefaultCard(defaultCard);
+          dispatch(setDefaultCard(defaultCard));
         }
         setSession(response.data.user, response.data.session);
       })
