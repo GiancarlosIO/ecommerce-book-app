@@ -3,6 +3,8 @@ import {
   SET_USER_DATA,
   UNAUTH_USER,
   AUTH_ERROR,
+  CLEAR_AUTH_ERRORS,
+  SET_ADD_CARD_MESSAGE,
   SET_CREDIT_CARDS,
   SET_DEFAULT_CARD,
   ADD_CREDIT_CARD,
@@ -23,6 +25,8 @@ export const setCreditCards = (cards) => ({type: SET_CREDIT_CARDS, payload: card
 export const setDefaultCard = (card) => ({ type: SET_DEFAULT_CARD, payload: card });
 export const addCreditCard = (card) => ({ type: ADD_CREDIT_CARD, payload: card });
 export const removeCreditCard = (id) => ({ type: REMOVE_CREDIT_CARD, payload: id });
+export const clearAuthErrors = () => ({ type: CLEAR_AUTH_ERRORS });
+export const setCardMessage = (message) => ({ type: SET_ADD_CARD_MESSAGE, payload: message });
 
 // Async actions
 
@@ -53,7 +57,7 @@ export const signinUser = (email, password) => {
       })
       .catch(error => {
         console.log('error to signin user', error.response);
-        // dispatch(authError(error.response.error.user));
+        dispatch(authError([error.response.data.error.user]));
       })
   }
 };
@@ -88,6 +92,10 @@ export const getCreditCards = () => {
       })
       .catch(error => {
         console.log('error to get credit cards', error.response);
+        if (error.response.status === 401) {
+          dispatch(unauthUser());
+          resetSession();
+        }
       })
   }
 }
@@ -98,9 +106,30 @@ export const createCreditCard = (token) => {
       .then(response => {
         console.log('create card successfully', response);
         dispatch(addCreditCard(response.data.card));
+        dispatch(setCardMessage({
+          type: 'addCard',
+          status: 'success',
+          message: 'Credit card added successfully'
+        }))
       })
       .catch(error => {
         console.log('error to add card', error.response);
+        if (error.response.status === 401) {
+          dispatch(unauthUser());
+          resetSession();
+        } else if (error.response.status === 422) {
+          dispatch(setCardMessage({
+            type: 'addCard',
+            status: 'error',
+            message: error.response.data.error.card
+          }))
+        } else {
+          dispatch(setCardMessage({
+            type: 'addCard',
+            status: 'error',
+            message: 'Error to add credit card, reload the page and try again.'
+          }))
+        }
       });
   }
 }
@@ -114,7 +143,11 @@ export const updateCard = (id) => {
         dispatch(setDefaultCard(card));
       })
       .catch(error => {
-        console.log('error to update card', error)
+        console.log('error to update card', error);
+        if (error.response.status === 401) {
+          dispatch(unauthUser());
+          resetSession();
+        }
       })
   }
 }
@@ -125,9 +158,23 @@ export const deleteCreditCard = (id) => {
       .then(response => {
         console.log('card deleted successfully', response);
         dispatch(removeCreditCard(id));
+        dispatch(setCardMessage({
+          type: 'card',
+          status: 'success',
+          message: 'Credit card deleted successfully'
+        }));
       })
       .catch(error => {
         console.log('error to delete creditCard', error.response);
+        if (error.response.status === 401) {
+          dispatch(unauthUser());
+          resetSession();
+        }
+        dispatch(setCardMessage({
+          type: 'card',
+          status: 'error',
+          message: 'Error to delete card, reload the page and try again.'
+        }));
       })
   }
 }
