@@ -9,7 +9,12 @@ class Api::V1::CardsController < Api::V1::ApiController
 
   def create
     if @current_user.customer_id.nil?
-      res = @current_user.set_customer_id(card_params[:token])
+      @card = @current_user.set_customer_id(card_params[:token])
+      if @card
+        render template: 'api/v1/cards/show', status: 200
+      else
+        render json: { error: { card: @card } }, status: :unprocessable_entity
+      end
     else
       @card = @current_user.add_cards(card_params[:token])
       if @card.class === "String"
