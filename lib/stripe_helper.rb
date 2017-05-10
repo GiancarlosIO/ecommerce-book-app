@@ -31,7 +31,7 @@ module StripeHelper
     if (valid_card)
       cu.sources.create(source: token)
     else
-      "the card has already taken"
+      "the card has already been added"
     end
   end
 
