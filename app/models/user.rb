@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   has_secure_password
   has_many :sessions, dependent: :destroy
-  has_many :cards
+  has_many :cards, dependent: :destroy
 
   def self.from_omniauth(data={})
     User.where(provider: data[:info][:email]).first_or_create do |user|
@@ -44,7 +44,8 @@ class User < ApplicationRecord
         fingerprint: res.fingerprint,
         brand: res.brand,
         exp_month: res.exp_month,
-        exp_year: res.exp_year
+        exp_year: res.exp_year,
+        default: self.cards.length === 0
       )
     end
   end
@@ -63,6 +64,8 @@ class User < ApplicationRecord
 
   def delete_card(card_id)
     StripeHelper.delete_card(self.customer_id, card_id)
-    self.cards.find_by(identifier: card_id).destroy
+    card = self.cards.find_by(identifier: card_id)
+    self.cards.last.update(default: true) if card.default
+    card.destroy
   end
 end
