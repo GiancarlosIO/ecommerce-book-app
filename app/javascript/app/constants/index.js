@@ -2,6 +2,8 @@
 export const AUTH_USER = 'AUTH_USER';
 export const UNAUTH_USER = 'UNAUTH_USER';
 export const AUTH_ERROR = 'AUTH_ERROR';
+export const CLEAR_AUTH_ERRORS = 'CLEAR_AUTH_ERRORS';
+export const SET_ADD_CARD_MESSAGE = 'SET_ADD_CARD_MESSAGE';
 export const SET_USER_DATA = 'SET_USER_DATA';
 export const SET_CREDIT_CARDS = 'SET_CREDIT_CARDS';
 export const SET_DEFAULT_CARD = 'SET_DEFAULT_CARD';
