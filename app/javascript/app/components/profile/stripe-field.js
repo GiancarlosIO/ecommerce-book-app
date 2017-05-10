@@ -17,16 +17,19 @@ export class StripeField extends Component {
   }
 
   handleClick = () => {
-    this.setState({ error: null }, () => {
+    this.setState({ error: null, loading: true }, () => {
       console.log('stripe field');
       // Create token of card
       this.stripe.createToken(this.card)
         .then(result => {
           console.log('tokenize token result', result);
           if (result.error) {
-            this.setState({ error: result.error.message });
+            this.setState({ error: result.error.message, loading: false });
           } else if (result.token) {
-            this.props.addCreditCard(result.token.id);
+            this.props.addCreditCard(result.token.id)
+              .then(() => {
+                this.setState({ loading: false, error: null });
+              });
           }
         });
     })
@@ -38,7 +41,7 @@ export class StripeField extends Component {
   }
 
   render() {
-    const { error } = this.state;
+    const { error, loading } = this.state;
 
     return (
       <div className="text-center padding-20">
@@ -54,9 +57,9 @@ export class StripeField extends Component {
           <div className="stripe-card" id="card-element"></div>
         </label>
         <div className="text-center">
-          <Button bsStyle="success" onClick={this.handleClick} >
+          <Button bsStyle="success" onClick={this.handleClick} disabled={loading}>
             <Glyphicon className="margin-right-5" glyph="plus" />
-            Add
+            { loading ? 'Loading...' : 'Add' }
           </Button>
         </div>
       </div>

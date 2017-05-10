@@ -7,7 +7,8 @@ import {
   getCreditCards,
   createCreditCard,
   deleteCreditCard,
-  updateCard
+  updateCard,
+  setCardMessage
 } from '../../actions/auth-actions';
 
 import ProfileInfo from './info';
@@ -16,9 +17,14 @@ import AddCard from './add-card';
 
 export class Profile extends Component {
 
+  state = {
+    loadingCards: false,
+    loadingAddCard: false
+  }
+
   addCreditCard = (token) => {
     console.log('adding card', token);
-    this.props.dispatch(createCreditCard(token))
+    return this.props.dispatch(createCreditCard(token))
       .then(() => {
         this.AddCard.closeModal();
       });
@@ -34,12 +40,19 @@ export class Profile extends Component {
     this.props.dispatch(deleteCreditCard(id));
   }
 
+  clearMessage = () => {
+    this.props.dispatch(setCardMessage(null));
+  }
+
   componentDidMount() {
-    this.props.dispatch(getCreditCards());
+    this.setState({loadingCards: true}, () => {
+      this.props.dispatch(getCreditCards())
+        .then( () => this.setState({ loadingCards: false }) );
+    })
   }
 
   render() {
-    const { user, creditCards } = this.props;
+    const { user, creditCards, message } = this.props;
     return (
       <Grid>
         <Row>
@@ -47,11 +60,19 @@ export class Profile extends Component {
         </Row>
         <Row>
           <PageHeader>Credit Cards</PageHeader>
-          <AddCard ref={ c => this.AddCard = c } addCreditCard={this.addCreditCard} />
+          <AddCard
+            ref={ c => this.AddCard = c }
+            addCreditCard={this.addCreditCard}
+            message={message}
+            clearMessage={this.clearMessage}
+          />
           <Cards
+            loading={this.state.loadingCards}
             creditCards={creditCards}
             deleteCard={this.deleteCard}
             setCardDefault={this.setCardDefault}
+            message={message}
+            clearMessage={this.clearMessage}
           />
         </Row>
       </Grid>
@@ -61,7 +82,8 @@ export class Profile extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
-  creditCards: state.auth.creditCards
+  creditCards: state.auth.creditCards,
+  message: state.auth.cardMessage
 });
 
 export default connect(mapStateToProps)(Profile);

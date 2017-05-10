@@ -6,8 +6,7 @@ import StripeField from './stripe-field';
 export class AddCard extends Component {
 
   state = {
-    showModal: false,
-    showAlert: false
+    showModal: false
   }
 
   closeModal = () => {
@@ -19,19 +18,21 @@ export class AddCard extends Component {
   };
 
   closeAlert = () => {
-    thi.setState({ showAlert: false, alertText: null });
+    this.props.clearMessage();
   }
 
   render() {
-    const { showAlert } = this.state;
-    const { alertText } = this.props;
+    const { message } = this.props;
     return (
       <Well className="text-center">
         {
-          showAlert &&
+          (message && message.type === 'addCard') &&
           (
-            <Alert bsStyle="success" onDismiss={this.closeAlert}>
-              <h3>{ alertText }</h3>
+            <Alert
+              bsStyle={message.status === 'success' ? "success" : "warning"}
+              onDismiss={this.closeAlert}
+            >
+              <p>{ message.message }</p>
             </Alert>
           )
         }
