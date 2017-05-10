@@ -19,6 +19,19 @@ const CardAPI = {
       cancelToken: new CancelToken( c => cancel = c )
     });
     return { request, cancel };
+  },
+  create: (token) => {
+    let CancelToken = axios.CancelToken;
+    let cancel;
+    let request = axios({
+      method: 'post',
+      url: BASE_URL,
+      data: { card: { token } },
+      headers: getHeadersForRequest(),
+      responseType: 'json',
+      cancelToken: new CancelToken( c => cancel = c )
+    });
+    return { request, cancel };
   }
 }
 

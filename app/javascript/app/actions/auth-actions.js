@@ -4,7 +4,8 @@ import {
   UNAUTH_USER,
   AUTH_ERROR,
   SET_CREDIT_CARDS,
-  SET_DEFAULT_CARD
+  SET_DEFAULT_CARD,
+  ADD_CREDIT_CARD
 } from '../constants/';
 
 import {
@@ -84,5 +85,18 @@ export const getCreditCards = () => {
       .catch(error => {
         console.log('error to get credit cards', error.response);
       })
+  }
+}
+
+export const createCreditCard = (token) => {
+  return (dispatch, getState, { CardAPI }) => {
+    return CardAPI.create(token).request
+      .then(response => {
+        console.log('create card successfully', response);
+        dispatch(addCreditCard(response.data.card));
+      })
+      .catch(error => {
+        console.log('error to add card', error);
+      });
   }
 }

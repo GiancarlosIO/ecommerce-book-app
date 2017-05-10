@@ -7,7 +7,16 @@ class Api::V1::CardsController < Api::V1::ApiController
   end
 
   def create
-    res = @current_user.create_card(card_params[:customer_id], card_params[:token])
+    if @current_user.customer_id.nil?
+      res = @current_user.set_customer_id(card_params[:token])
+    else
+      @card = @current_user.add_cards(card_params[:token])
+      if @card.class === "String"
+        render json: { error: { card: @card } }, status: :unprocessable_entity
+      else
+        render template: 'api/v1/cards/show', status: 200
+      end
+    end
   end
 
   def destroy
@@ -15,6 +24,6 @@ class Api::V1::CardsController < Api::V1::ApiController
 
   private
   def card_params
-    params.require(:card).permit(:customer_id, :token)
+    params.require(:card).permit(:token)
   end
 end

@@ -12,7 +12,6 @@ Rails.application.routes.draw do
         put '/password', to: 'users#password'
         post '/sign_in', to: 'sessions#sign_in'
         delete '/sign_out', to: 'sessions#sign_out'
-        post '/cards', to: 'users#add_card'
       end
     end
   end

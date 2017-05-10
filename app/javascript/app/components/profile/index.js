@@ -3,7 +3,7 @@ import { Grid, Row, Column, PageHeader } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { getCreditCards } from '../../actions/auth-actions';
+import { getCreditCards, createCreditCard } from '../../actions/auth-actions';
 
 import ProfileInfo from './info';
 import Cards from './cards';
@@ -13,6 +13,10 @@ export class Profile extends Component {
 
   addCreditCard = (token) => {
     console.log('adding card', token);
+    this.props.dispatch(createCreditCard(token))
+      .then(() => {
+        this.AddCard.closeModal();
+      });
   }
 
   componentDidMount() {
@@ -28,7 +32,7 @@ export class Profile extends Component {
         </Row>
         <Row>
           <PageHeader>Credit Cards</PageHeader>
-          <AddCard addCreditCard={this.addCreditCard} />
+          <AddCard ref={ c => this.AddCard = c } addCreditCard={this.addCreditCard} />
           <Cards creditCards={creditCards} />
         </Row>
       </Grid>

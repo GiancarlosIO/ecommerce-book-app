@@ -17,15 +17,6 @@ class Api::V1::UsersController < Api::V1::ApiController
     end
   end
 
-  def add_card
-     @card = @current_user.add_cards(card_params[:token])
-     if @card.class === "String"
-       render json: { error: { card: @card } }, status: :unprocessable_entity
-    else
-      render template: 'api/v1/cards/show', status: 200
-    end
-  end
-
   def update
     if @current_user.update(user_update_params)
       render template: 'api/v1/users/show', status: 200

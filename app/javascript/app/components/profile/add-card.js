@@ -6,7 +6,7 @@ import StripeField from './stripe-field';
 export class AddCard extends Component {
 
   state = {
-    showModal: true
+    showModal: false
   }
 
   closeModal = () => {
