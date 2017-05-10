@@ -32,6 +32,29 @@ const CardAPI = {
       cancelToken: new CancelToken( c => cancel = c )
     });
     return { request, cancel };
+  },
+  delete: (id) => {
+    let CancelToken = axios.CancelToken;
+    let cancel;
+    let request= axios({
+      method: 'delete',
+      url: `${BASE_URL}/${id}`,
+      headers: getHeadersForRequest(),
+      cancelToken: new CancelToken( c => cancel = c )
+    });
+    return { request, cancel };
+  },
+  setDefault: (id) => {
+    let CancelToken = axios.CancelToken;
+    let cancel;
+    let request = axios({
+      method: 'put',
+      headers: getHeadersForRequest(),
+      url: `${BASE_URL}/${id}`,
+      responseType: 'json',
+      cancelToken: new CancelToken( c => cancel = c )
+    });
+    return { request, cancel };
   }
 }
 

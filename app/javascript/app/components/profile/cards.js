@@ -6,9 +6,14 @@ import Card from './card';
 const ProfileCards = (props) => {
 
   const renderCards = (cards) => {
-    return cards.map( card =>
+    return Object.keys(cards).map( key =>
       (
-        <Card card={card} key={card.id}/>
+        <Card
+          card={cards[key]}
+          key={cards[key].id}
+          deleteCard={props.deleteCard}
+          setCardDefault={props.setCardDefault}
+        />
       )
     );
   }

@@ -5,7 +5,8 @@ import {
   SET_USER_DATA,
   SET_CREDIT_CARDS,
   SET_DEFAULT_CARD,
-  ADD_CREDIT_CARD
+  ADD_CREDIT_CARD,
+  REMOVE_CREDIT_CARD
 } from '../constants/';
 
 const initialState = {
@@ -48,18 +49,34 @@ const AuthReducer = (state=initialState, action) => {
         creditCards: action.payload
       };
     case SET_DEFAULT_CARD:
+      let creditCards = { ...state.creditCards };
+      Object.keys(creditCards).forEach( key => {
+        if (creditCards[key].id == action.payload.id) {
+          creditCards[key].default = true;
+        } else {
+          creditCards[key].default = false;
+        }
+      });
       return {
         ...state,
-        creditCardDefault: action.payload
+        creditCardDefault: action.payload,
+        creditCards
       }
     case ADD_CREDIT_CARD:
       return {
         ...state,
-        creditCards: [
+        creditCards: {
           ...state.creditCards,
-          action.payload
-        ]
+          [`${action.payload.id}`]: action.payload
+        }
       };
+    case REMOVE_CREDIT_CARD:
+      let cards = { ...state.creditCards };
+      delete cards[action.payload];
+      return {
+        ...state,
+        creditCards: cards
+      }
     default:
       return state;
   }

@@ -48,4 +48,21 @@ class User < ApplicationRecord
       )
     end
   end
+
+  def set_default_card(card_id)
+    card = self.cards.find(card_id)
+    StripeHelper.update_customer(self.customer_id, {default_source: card.identifier})
+    self.cards.map do |c|
+      if c.id == card_id
+        c.update(default: true)
+      else
+        c.update(default: false)
+      end
+    end
+  end
+
+  def delete_card(card_id)
+    StripeHelper.delete_card(self.customer_id, card_id)
+    self.cards.find_by(identifier: card_id).destroy
+  end
 end

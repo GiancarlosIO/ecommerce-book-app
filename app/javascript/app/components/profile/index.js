@@ -3,7 +3,12 @@ import { Grid, Row, Column, PageHeader } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { getCreditCards, createCreditCard } from '../../actions/auth-actions';
+import {
+  getCreditCards,
+  createCreditCard,
+  deleteCreditCard,
+  updateCard
+} from '../../actions/auth-actions';
 
 import ProfileInfo from './info';
 import Cards from './cards';
@@ -17,6 +22,16 @@ export class Profile extends Component {
       .then(() => {
         this.AddCard.closeModal();
       });
+  }
+
+  setCardDefault = (id) => {
+    console.log('setting default card', id);
+    this.props.dispatch(updateCard(id));
+  }
+
+  deleteCard = (id) => {
+    console.log('deleting card', id);
+    this.props.dispatch(deleteCreditCard(id));
   }
 
   componentDidMount() {
@@ -33,7 +48,11 @@ export class Profile extends Component {
         <Row>
           <PageHeader>Credit Cards</PageHeader>
           <AddCard ref={ c => this.AddCard = c } addCreditCard={this.addCreditCard} />
-          <Cards creditCards={creditCards} />
+          <Cards
+            creditCards={creditCards}
+            deleteCard={this.deleteCard}
+            setCardDefault={this.setCardDefault}
+          />
         </Row>
       </Grid>
     )

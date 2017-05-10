@@ -1,12 +1,13 @@
 import React, { Component }  from 'react';
-import { Well, Glyphicon, Button, Modal } from 'react-bootstrap';
+import { Well, Glyphicon, Button, Modal, Alert } from 'react-bootstrap';
 
 import StripeField from './stripe-field';
 
 export class AddCard extends Component {
 
   state = {
-    showModal: false
+    showModal: false,
+    showAlert: false
   }
 
   closeModal = () => {
@@ -17,10 +18,23 @@ export class AddCard extends Component {
     this.setState({showModal: true});
   };
 
-  render() {
+  closeAlert = () => {
+    thi.setState({ showAlert: false, alertText: null });
+  }
 
+  render() {
+    const { showAlert } = this.state;
+    const { alertText } = this.props;
     return (
       <Well className="text-center">
+        {
+          showAlert &&
+          (
+            <Alert bsStyle="success" onDismiss={this.closeAlert}>
+              <h3>{ alertText }</h3>
+            </Alert>
+          )
+        }
         <Button bsStyle="success" onClick={this.openModal}>
           <Glyphicon glyph="plus" className="margin-right-5" />
           Add a new Credit Card

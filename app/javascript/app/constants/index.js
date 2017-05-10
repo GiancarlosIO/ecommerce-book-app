@@ -6,6 +6,7 @@ export const SET_USER_DATA = 'SET_USER_DATA';
 export const SET_CREDIT_CARDS = 'SET_CREDIT_CARDS';
 export const SET_DEFAULT_CARD = 'SET_DEFAULT_CARD';
 export const ADD_CREDIT_CARD = 'ADD_CREDIT_CARD';
+export const REMOVE_CREDIT_CARD = 'REMOVE_CREDIT_CARD';
 // products constants
 export const SELECT_PRODUCT = 'SELECT_PRODUCT';
 export const SET_PRODUCTS = 'SET_PRODUCTS';

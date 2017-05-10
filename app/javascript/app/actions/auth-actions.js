@@ -5,7 +5,8 @@ import {
   AUTH_ERROR,
   SET_CREDIT_CARDS,
   SET_DEFAULT_CARD,
-  ADD_CREDIT_CARD
+  ADD_CREDIT_CARD,
+  REMOVE_CREDIT_CARD
 } from '../constants/';
 
 import {
@@ -21,6 +22,7 @@ export const unauthUser = () => ({ type: UNAUTH_USER });
 export const setCreditCards = (cards) => ({type: SET_CREDIT_CARDS, payload: cards});
 export const setDefaultCard = (card) => ({ type: SET_DEFAULT_CARD, payload: card });
 export const addCreditCard = (card) => ({ type: ADD_CREDIT_CARD, payload: card });
+export const removeCreditCard = (id) => ({ type: REMOVE_CREDIT_CARD, payload: id });
 
 // Async actions
 
@@ -77,9 +79,11 @@ export const getCreditCards = () => {
       .then(response => {
         console.log('get credit cards successfully', response);
         if (response.data.cards.length > 0) {
-          dispatch(setCreditCards(response.data.cards));
+          const objCards = {};
+          response.data.cards.map(card => objCards[card.id] = card );
+          dispatch(setCreditCards(objCards));
           const defaultCard = response.data.cards.filter(card => card.default);
-          dispatch(setDefaultCard(defaultCard));
+          dispatch(setDefaultCard(defaultCard[0]));
         };
       })
       .catch(error => {
@@ -96,7 +100,34 @@ export const createCreditCard = (token) => {
         dispatch(addCreditCard(response.data.card));
       })
       .catch(error => {
-        console.log('error to add card', error);
+        console.log('error to add card', error.response);
       });
+  }
+}
+
+export const updateCard = (id) => {
+  return (dispatch, getState, { CardAPI }) => {
+    return CardAPI.setDefault(id).request
+      .then(response => {
+        console.log('update card successfully', response);
+        const card = getState().auth.creditCards[id];
+        dispatch(setDefaultCard(card));
+      })
+      .catch(error => {
+        console.log('error to update card', error)
+      })
+  }
+}
+
+export const deleteCreditCard = (id) => {
+  return (dispatch, getState, { CardAPI }) => {
+    return CardAPI.delete(id).request
+      .then(response => {
+        console.log('card deleted successfully', response);
+        dispatch(removeCreditCard(id));
+      })
+      .catch(error => {
+        console.log('error to delete creditCard', error.response);
+      })
   }
 }
