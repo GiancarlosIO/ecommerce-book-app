@@ -6,7 +6,7 @@ import FieldForm from './field';
 // forms validations
 import { validateRegisterForm } from './form-validations/';
 // actions
-import { signupUser } from '../../actions/auth-actions';
+import { signupUser, clearAuthErrors } from '../../actions/auth-actions';
 
 export class Register extends Component {
 
@@ -25,6 +25,10 @@ export class Register extends Component {
       ));
       return (<div>{errorsArray}</div>);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(clearAuthErrors());
   }
 
   render(){
