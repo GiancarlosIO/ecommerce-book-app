@@ -2,6 +2,8 @@ import {
   AUTH_USER,
   UNAUTH_USER,
   AUTH_ERROR,
+  CLEAR_AUTH_ERRORS,
+  SET_ADD_CARD_MESSAGE,
   SET_USER_DATA,
   SET_CREDIT_CARDS,
   SET_DEFAULT_CARD,
@@ -14,7 +16,8 @@ const initialState = {
   errors: null,
   user: null,
   creditCardDefault: null,
-  creditCards: null
+  creditCards: null,
+  cardMessage: null
 };
 
 const AuthReducer = (state=initialState, action) => {
@@ -30,13 +33,25 @@ const AuthReducer = (state=initialState, action) => {
         ...state,
         user: null,
         authenticated: false,
-        errors: []
+        errors: [],
+        creditCardDefault: null,
+        creditCards: null
       }
     case AUTH_ERROR:
       return {
         ...state,
         errors: action.payload
       };
+    case CLEAR_AUTH_ERRORS:
+      return {
+        ...state,
+        errors: null
+      };
+    case SET_ADD_CARD_MESSAGE:
+      return {
+        ...state,
+        cardMessage: action.payload
+      }
     case SET_USER_DATA:
       return {
         ...state,
@@ -72,6 +87,18 @@ const AuthReducer = (state=initialState, action) => {
       };
     case REMOVE_CREDIT_CARD:
       let cards = { ...state.creditCards };
+      let card = cards[action.payload];
+      if (card.default) {
+        const keys = Object.keys(cards);
+        const lastCard = cards[keys[keys.length - 1]];
+        lastCard.default = true;
+        delete cards[action.payload];
+        return {
+          ...state,
+          creditCards: cards,
+          creditCardDefault: lastCard
+        };
+      }
       delete cards[action.payload];
       return {
         ...state,
