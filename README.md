@@ -23,3 +23,22 @@ simple Ecommerce books app for learning purposes built with rails, react and red
 - mock-local-storage: '1.0.2'
 - redux-mock-store: '1.2.2'
 - sinon: '2.1.0'
+# Live Testing:
+      - email: test@gmail.com
+      - password: 123123123
+# Previews
+- Infinite scroll 
+![alt text](https://cloud.githubusercontent.com/assets/17274950/26015426/8b731fbe-3726-11e7-9d46-25026c883857.gif "infinite scroll")
+
+- Product details
+![alt text](https://cloud.githubusercontent.com/assets/17274950/26015433/8f4217c6-3726-11e7-9a00-05823c8f17c6.gif "Product details")
+
+- Managment of credit-cards ( integration with https://stripe.com/ )
+![alt text](https://cloud.githubusercontent.com/assets/17274950/26015437/9369d410-3726-11e7-9c34-7dbb005391ae.gif "credit-cards")
+
+-Incomings:
+  - Shopping cart
+  - Buy products
+  - Send products like gifts to friends
+  - Most popular products..etc
+
