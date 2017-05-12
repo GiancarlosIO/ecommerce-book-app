@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { env } from 'process';
+const { env } = require('process');
 
 import {
   getHeadersForRequest
 } from './header-config';
 
-const BASE_URL = env.NODE_ENV = 'test' ? 'http://localhost:3000/api/v1/cards' : '/api/v1/cards';
+const BASE_URL = env.NODE_ENV === 'test' ? 'http://localhost:3000/api/v1/cards' : '/api/v1/cards';
 
 const CardAPI = {
   index: () => {
