@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  last_four: MyString
+  identifier: MyString
+  fingerprint: MyString
+  brand: MyString
+  exp_month: 1
+  exp_year: 1
+  user_id: one
+
+two:
+  last_four: MyString
+  identifier: MyString
+  fingerprint: MyString
+  brand: MyString
+  exp_month: 1
+  exp_year: 1
+  user_id: two

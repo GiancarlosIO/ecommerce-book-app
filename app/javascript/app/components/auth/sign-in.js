@@ -1,17 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, SubmissionError, Field } from 'redux-form';
-import { Button, Col, Row, Panel } from 'react-bootstrap';
+import { Button, Col, Row, Panel, Alert, Glyphicon } from 'react-bootstrap';
 import FieldForm from './field';
 import { validateSigninForm } from './form-validations/';
 
-import { signinUser } from '../../actions/auth-actions';
+import { signinUser, clearAuthErrors } from '../../actions/auth-actions';
 
 export class SignIn extends Component {
 
   onSubmit = (values, dispatch, formProps) => {
     console.log('Sign in form', values);
     this.props.dispatch(signinUser(values.email, values.password));
+  }
+
+  renderErrors = () => {
+    const { errors } = this.props;
+    if (errors) {
+      let errorsArray = errors.map((error, index) => (
+        <Alert key={index} bsStyle="warning">
+          <Glyphicon glyph="warning-sign" />  { error }
+        </Alert>
+      ));
+      return (<div>{errorsArray}</div>);
+    };
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(clearAuthErrors());
   }
 
   render() {
@@ -21,6 +37,7 @@ export class SignIn extends Component {
         <Col xs={12} sm={6} lg={4} smOffset={3} lgOffset={4}>
           <Panel header="Sign In">
             <form onSubmit={handleSubmit(this.onSubmit)}>
+              { this.renderErrors() }
               <Field
                 name="email"
                 type="email"
@@ -49,4 +66,6 @@ const SignInConfigured = reduxForm({
   validate: validateSigninForm
 })(SignIn)
 
-export default connect()(SignInConfigured);
+const mapStateToProps = (state) => ({ errors: state.auth.errors });
+
+export default connect(mapStateToProps)(SignInConfigured);
