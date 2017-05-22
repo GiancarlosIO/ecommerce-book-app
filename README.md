@@ -36,7 +36,7 @@ simple Ecommerce books app for learning purposes built with rails, react and red
 - Managment of credit-cards ( integration with https://stripe.com/ )
 ![alt text](https://cloud.githubusercontent.com/assets/17274950/26015437/9369d410-3726-11e7-9c34-7dbb005391ae.gif "credit-cards")
 
--Incomings:
+-in process:
   - Shopping cart
   - Buy products
   - Send products like gifts to friends
