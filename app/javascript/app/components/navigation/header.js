@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import CustomLink from './custom-link';
 import { signoutUser } from '../../actions/auth-actions';
+import {
+  Navbar,
+  Nav,
+  NavItem,
+  Glyphicon
+} from 'react-bootstrap';
 
 export class Header extends Component {
 
@@ -28,9 +33,9 @@ export class Header extends Component {
   }
 
   render() {
-    const { authenticated } = this.props;
+    const { authenticated, productsCart } = this.props;
     return (
-      <Navbar inverse collapseOnSelect fluid className="margin-none">
+      <Navbar inverse collapseOnSelect fluid className="margin-none" fixedTop>
         <Navbar.Header>
           <Navbar.Brand>
             <Link to="/">Ecommerce-app</Link>
@@ -44,6 +49,12 @@ export class Header extends Component {
             {
               authenticated &&
               <ul className="nav navbar-nav navbar-right">
+                  <CustomLink to="/shopping" childrenComponent={
+                    <Link to="/shopping">
+                      <Glyphicon glyph="shopping-cart" /> { productsCart }
+                    </Link>
+                  }
+                />
                 <li>
                   <a className="cursor-pointer" onClick={this.handleClickSignout} >Sign out</a>
                 </li>
@@ -55,7 +66,10 @@ export class Header extends Component {
   }
 };
 
-const mapStateToProps = (state) => ({ authenticated: state.auth.authenticated });
+const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
+  productsCart: state.shop.productsInCart.length
+});
 
 const HeaderConnected = connect(mapStateToProps)(Header);
 export default withRouter(HeaderConnected);
