@@ -7,19 +7,23 @@ import {
 
 import Cart from './cart';
 
-export const CartList = ({carts}) => {
+export const CartList = ({carts, handleChange, deleteCart}) => {
 
   const renderCarts = () => {
     return Object.keys(carts).map( i => {
       const cart = carts[`${i}`];
       return (
-        <Cart key={cart.id} {...cart} />
+        <Cart
+          key={cart.id} {...cart}
+          handleChange={handleChange}
+          deleteCart={deleteCart}
+        />
       );
     });
   }
 
   return (
-    <div>
+    <div className="padding-20">
       {
         renderCarts()
       }

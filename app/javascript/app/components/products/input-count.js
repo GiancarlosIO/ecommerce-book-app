@@ -1,4 +1,5 @@
 import React, { Component }  from 'react';
+import PropTypes from 'prop-types';
 import {
   Glyphicon
 } from 'react-bootstrap';
@@ -6,7 +7,7 @@ import {
 export class InputCount extends Component {
 
   state = {
-    count: 1
+    count: this.props.value ? this.props.value : 1
   }
 
   handleChange = (e) => {
@@ -64,6 +65,11 @@ export class InputCount extends Component {
     );
 
   }
+}
+
+InputCount.propTypes = {
+  handleChange: PropTypes.func,
+  value: PropTypes.number
 }
 
 export default InputCount;

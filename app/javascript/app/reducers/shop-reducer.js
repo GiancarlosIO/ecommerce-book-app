@@ -2,11 +2,24 @@ import {
   SELECT_CARD,
   SET_TOKEN_CARD,
   ADD_PRODUCT_TO_CART,
-  CALCULATE_TOTAL
+  CALCULATE_TOTAL,
+  SET_CART_QUANTITY,
+  DELETE_CART
 } from '../constants';
 
 const initialState = {
-  productsInCart: {},
+  productsInCart: {
+    234: {
+      id: 234,
+      name: "To a God Unknown",
+      price: 24.45,
+      quantity: 14,
+      description: "Et sed culpa eum odit commodi expedita. Et optio aliquid ipsam ut. Aut illum alias dolor ex exercitationem ut.",
+      created_at: "2017-05-04T04:12:36.516Z",
+      updated_at: "2017-05-04T04:12:36.516Z",
+      image: "http://lorempixel.com/250/350/business",
+    }
+  },
   subtotal: 0.00,
   total: 0.00,
   cardSelected: null,
@@ -41,6 +54,23 @@ const ShopReducer = (state=initialState, action) => {
           [`${product.id}`]: product
         }
       }
+    case SET_CART_QUANTITY:
+      return {
+        ...state,
+        productsInCart: {
+          [`${action.payload.id}`]: {
+            ...state.productsInCart[`${action.payload.id}`],
+            quantity: action.payload.quantity
+          }
+        }
+      }
+    case DELETE_CART:
+      let carts = { ...state.productsInCart };
+      delete carts[`${action.payload}`];
+      return {
+        ...state,
+        productsInCart: carts
+      };
     case CALCULATE_TOTAL:
       const products = { ...state.productsInCart };
       const prices = Object.keys(products).map(i => {

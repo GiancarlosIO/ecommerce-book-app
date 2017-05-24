@@ -18,7 +18,6 @@ import ProductCard from './product-card';
 export class ProductList extends Component {
 
   componentDidMount() {
-    console.log('Product list mounted');
     const { dispatch } = this.props;
     dispatch(loadingProducts(true));
     dispatch(getProducts());
@@ -30,7 +29,6 @@ export class ProductList extends Component {
   }
 
   addToCart = (product, quantity) => {
-    console.log('quantity', quantity);
     this.props.dispatch(addProductToCart(product, quantity));
     this.props.dispatch(calculateTotal());
   }

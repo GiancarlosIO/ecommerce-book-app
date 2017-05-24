@@ -5,19 +5,53 @@ import {
   Jumbotron
 } from 'react-bootstrap';
 
+import {
+  setCartQuantity,
+  deleteCart,
+  calculateTotal
+} from '../../actions/shop-actions';
+
 import CartList from './cart-list';
 
 export class Shopping extends Component {
+
+  handleChange = (id, quantity) => {
+    console.log('id cart', id);
+    console.log('quantity cart', quantity);
+    this.props.dispatch(setCartQuantity(id, quantity));
+    this.props.dispatch(calculateTotal());
+  }
+
+  deleteCart = (id) => {
+    this.props.dispatch(deleteCart(id));
+  }
+
   render() {
     const { carts, subtotal, total } = this.props;
 
     return Object.keys(carts).length > 0 ?
       (
         <Jumbotron>
-          <CartList carts={carts} />
-          <div>
-            <span>subtotal: {subtotal}</span> <br />
-            <span>Total: {total} </span>
+          <CartList carts={carts} handleChange={this.handleChange} deleteCart={this.deleteCart} />
+          <div className="padding-20 text-right">
+            <div>
+              Subtotal:
+              <span className="text-title margin-left-15">
+                ${subtotal}
+              </span>
+            </div>
+            <div>
+              IGV:
+              <span className="text-title margin-left-15">
+                ${(subtotal*0.18).toFixed(2)}
+              </span>
+            </div>
+            <div>
+              Total:
+              <span className="text-24 text-red-flat margin-left-15">
+                ${total}
+              </span>
+            </div>
           </div>
         </Jumbotron>
       ) :
