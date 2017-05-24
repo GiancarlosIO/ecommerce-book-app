@@ -25,4 +25,4 @@ export const SELECT_CATEGORY = 'SELECT_CATEGORY';
 // Shop constants
 export const SET_TOKEN_CARD = 'SET_TOKEN_CARD';
 export const SELECT_CARD = 'SELECT_CARD';
-export const ADD_PRODUCT_TO_CAR = 'ADD_PRODUCT_TO_CAR'
+export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART';
