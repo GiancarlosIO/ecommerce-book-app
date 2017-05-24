@@ -1,18 +1,18 @@
 import {
   SELECT_CARD,
   SET_TOKEN_CARD,
-  ADD_PRODUCT_TO_CAR
+  ADD_PRODUCT_TO_CART
 } from '../constants';
 
 const initialState = {
-  inShop: false,
-  productsInCar: [],
+  productsInCart: [],
   cardSelected: null,
   cardToken: null
 }
 
 const ShopReducer = (state=initialState, action) => {
   switch (action.type) {
+    // Stripe actions
     case SELECT_CARD:
       return {
         ...state,
@@ -23,11 +23,12 @@ const ShopReducer = (state=initialState, action) => {
         ...state,
         cardToken: action.payload
       }
-    case ADD_PRODUCT_TO_CAR:
+    // End Stripe actions
+    case ADD_PRODUCT_TO_CART:
       return {
         ...state,
-        productsInCard: [
-          ...state.productsInCar,
+        productsInCart: [
+          ...state.productsInCart,
           action.payload
         ]
       }

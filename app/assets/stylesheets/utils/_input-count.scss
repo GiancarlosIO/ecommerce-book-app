@@ -1,0 +1,31 @@
+.input-count {
+  padding: 0 5px;
+  width: 110px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  > span {
+    padding: 5px;
+    transition: all 0.2s ease-in-out;
+    background-color: rgba(0,0,0,0.05);
+    &:hover {
+      background-color: rgba(0,0,0,0.15);
+    }
+  }
+  > input {
+    outline: none;
+    padding: 5px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    width: 60%;
+    border-radius: 7px;
+    border: 1px solid rgba(0,0,0,0.3);
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      outline: none;
+      border-color: $blue-flat;
+    }
+  }
+}

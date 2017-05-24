@@ -46,6 +46,7 @@
   &-right-10 { margin-right: 10px; }
   &-left-15 { margin-left: 15px; }
   &-rightLeft-10 { margin-right: 10px; margin-left: 10px; }
+  &-left-5 { margin-left: 5px; }
   &-bottom-8 { margin-bottom: 8px; }
   &-bottom-20 { margin-bottom: 20px; }
   &-bottom-15 { margin-bottom: 15px; }
@@ -57,6 +58,7 @@
   &-20 { padding: 20px; }
   &-bottom-10 { padding-bottom: 10px; }
   &-topBottom-40 { padding-top: 40px; padding-bottom: 40px; }
+  &-topBottom-10 { padding-top: 10px; padding-bottom: 10px; }
 }
 
 .img {
@@ -75,6 +77,7 @@
 .flex {
   display: flex;
   &-row { flex-direction: row; }
+  &-wrap { flex-wrap: wrap; }
   &-rowWrap { flex-flow: row wrap; }
   &-column { flex-direction: column; }
   &-columnWrap { flex-flow: column wrap; }
@@ -85,8 +88,14 @@
 
 .border {
   &-radius-4 { border-radius: 4px; }
+  &-radius-none { border-radius: 0 !important; }
 }
 
 .vertical-align {
   &-middle { vertical-align: middle !important; }
+}
+
+.width {
+  &-full { width: 100%; }
+  &-90 { width: 90px; }
 }

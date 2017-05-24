@@ -16,6 +16,8 @@ import Footer from '../components/navigation/footer';
 // authentication
 import Register from '../components/auth/register';
 import SignIn from '../components/auth/sign-in';
+// Shop components
+import Shopping from '../components/shopping/';
 // Hide order component
 import RequireAuth from '../components/auth/hoc/require-auth';
 import HideAuth from '../components/auth/hoc/hide-auth';
@@ -30,8 +32,9 @@ export default (
         <Route path="/register" component={HideAuth(Register)} />
         <Route path="/sign_in" component={HideAuth(SignIn)} />
         <Route path="/profile" component={RequireAuth(Profile)} />
-        <Route exact path="/products/:id" component={ProductsShow} />
-        <Route exact path="/products" component={Products} />
+        <Route path="/products/:id" component={ProductsShow} />
+        <Route path="/products" component={Products} />
+        <Route path="/shopping" component={Shopping} />
         <Route component={NotFound} />
       </Switch>
       <footer />

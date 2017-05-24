@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getProducts, loadingProducts, setLoadingPerPage, getProductsPerPage } from '../../actions/product-actions';
 import _ from 'lodash';
+import {
+  getProducts,
+  loadingProducts,
+  setLoadingPerPage,
+  getProductsPerPage
+} from '../../actions/product-actions';
+// shop actions
+import {
+  addProductToCart
+} from '../../actions/shop-actions';
 
 import ProductCard from './product-card';
 
@@ -17,6 +26,10 @@ export class ProductList extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  addToCart = (product) => {
+    this.props.dispatch(addProductToCart(product));
   }
 
   handleScroll = _.throttle((e) => {
@@ -40,7 +53,7 @@ export class ProductList extends Component {
     if (products) {
       return Object.keys(products).map(key => {
         return (
-          <ProductCard key={key} {...products[key]}/>
+          <ProductCard key={key} {...products[key]} addToCart={this.addToCart} />
         )
       });
     }
@@ -50,7 +63,9 @@ export class ProductList extends Component {
     const { products, loading, loadingPerPage } = this.props;
     return (
       <div>
-        <h1>Products</h1>
+        <div className="margin-rightLeft-10">
+          <h1>Products</h1>
+        </div>
         <div className="product-card-container flex flex-rowWrap flex-justifyAround flex-alignItems">
           { loading ? 'Loading Products' : this.renderProducts() }
           { loadingPerPage && (<div><h1 className="margin-bottom-20">Loading...</h1></div>) }
