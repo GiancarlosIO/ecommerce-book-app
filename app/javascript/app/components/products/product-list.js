@@ -9,7 +9,8 @@ import {
 } from '../../actions/product-actions';
 // shop actions
 import {
-  addProductToCart
+  addProductToCart,
+  calculateTotal
 } from '../../actions/shop-actions';
 
 import ProductCard from './product-card';
@@ -31,6 +32,7 @@ export class ProductList extends Component {
   addToCart = (product, quantity) => {
     console.log('quantity', quantity);
     this.props.dispatch(addProductToCart(product, quantity));
+    this.props.dispatch(calculateTotal());
   }
 
   handleScroll = _.throttle((e) => {
