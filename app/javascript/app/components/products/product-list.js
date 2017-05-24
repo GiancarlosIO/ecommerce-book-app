@@ -28,7 +28,8 @@ export class ProductList extends Component {
     window.removeEventListener('scroll', this.handleScroll);
   }
 
-  addToCart = (product) => {
+  addToCart = (product, quantity) => {
+    console.log('quantity', quantity);
     this.props.dispatch(addProductToCart(product));
   }
 

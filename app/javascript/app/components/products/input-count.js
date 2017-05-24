@@ -13,7 +13,9 @@ export class InputCount extends Component {
     const count = this.input.value;
     const reg = /^[0-9\b]+$/;
     if (reg.test(count)) {
-      this.setState({ count: count > 0 ? count : 1 });
+      this.setState({ count: count > 0 ? count : 1 }, () => {
+        this.changeCallback(this.state.count);
+      });
     }
   }
 
@@ -22,9 +24,13 @@ export class InputCount extends Component {
     if (parseInt(count)) {
       count = parseInt(count);
       count = count + 1;
-      this.setState({ count });
+      this.setState({ count }, () => {
+        this.changeCallback(this.state.count);
+      });
     } else {
-      this.setState({ count: 1 });
+      this.setState({ count: 1 }, () => {
+        this.changeCallback(this.state.count);
+      });
     }
   }
 
@@ -33,17 +39,18 @@ export class InputCount extends Component {
     if (parseInt(count)) {
       count = parseInt(count);
       count = count - 1;
-      this.setState({ count: count > 0 ? count : 1 });
+      this.setState({ count: count > 0 ? count : 1 }, () => {
+        this.changeCallback(this.state.count);
+      });
     }
   }
 
-  getCount = () => {
-    return this.state.count;
+  changeCallback = (count) => {
+    if (this.props.handleChange) this.props.handleChange(count);
   }
 
   render() {
     const { count } = this.state;
-
     return (
       <div className="input-count">
         <Glyphicon glyph="chevron-up" className="cursor-pointer margin-right-5" onClick={this.upCount} />
