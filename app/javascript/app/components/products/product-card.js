@@ -37,19 +37,21 @@ export class ProductCard extends Component {
           </div>
         </Link>
         <div className="flex flex-row flex-wrap">
-          <InputCount handleChange={this.updateCount} />
+          <InputCount handleChange={this.updateCount} ref={ (el) => {this.inputCount = el} }/>
           <Button
             className="width-90 border-radius-none"
             bsStyle="success"
             onClick={() => {
-              addToCart({
-                id,
-                name,
-                description,
-                price,
-                quantity,
-                image
-              }, this.state.count)}
+                addToCart({
+                  id,
+                  name,
+                  description,
+                  price,
+                  quantity,
+                  image
+                }, this.state.count);
+                this.inputCount.resetState();
+              }
             }
           >
             <Glyphicon glyph="shopping-cart"/>  Add

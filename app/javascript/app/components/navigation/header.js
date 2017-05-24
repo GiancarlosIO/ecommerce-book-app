@@ -33,7 +33,7 @@ export class Header extends Component {
   }
 
   render() {
-    const { authenticated, productsCart } = this.props;
+    const { authenticated, productsCartCount } = this.props;
     return (
       <Navbar inverse collapseOnSelect fluid className="margin-none" fixedTop>
         <Navbar.Header>
@@ -51,7 +51,7 @@ export class Header extends Component {
               <ul className="nav navbar-nav navbar-right">
                   <CustomLink to="/shopping" childrenComponent={
                     <Link to="/shopping">
-                      <Glyphicon glyph="shopping-cart" /> { productsCart }
+                      <Glyphicon glyph="shopping-cart" /> { productsCartCount }
                     </Link>
                   }
                 />
@@ -66,10 +66,14 @@ export class Header extends Component {
   }
 };
 
-const mapStateToProps = (state) => ({
-  authenticated: state.auth.authenticated,
-  productsCart: state.shop.productsInCart.length
-});
+const mapStateToProps = (state) => {
+  const products = state.shop.productsInCart;
+  const count = Object.keys(products).length > 0 ? Object.keys(products).map( i => products[`${i}`].quantity ).reduce((a, b) => parseInt(a) + parseInt(b) ) : 0;
+  return {
+    authenticated: state.auth.authenticated,
+    productsCartCount: count
+  }
+};
 
 const HeaderConnected = connect(mapStateToProps)(Header);
 export default withRouter(HeaderConnected);

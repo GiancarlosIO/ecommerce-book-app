@@ -30,7 +30,7 @@ export class ProductList extends Component {
 
   addToCart = (product, quantity) => {
     console.log('quantity', quantity);
-    this.props.dispatch(addProductToCart(product));
+    this.props.dispatch(addProductToCart(product, quantity));
   }
 
   handleScroll = _.throttle((e) => {

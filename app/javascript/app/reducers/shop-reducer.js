@@ -5,7 +5,7 @@ import {
 } from '../constants';
 
 const initialState = {
-  productsInCart: [],
+  productsInCart: {},
   cardSelected: null,
   cardToken: null
 }
@@ -25,12 +25,18 @@ const ShopReducer = (state=initialState, action) => {
       }
     // End Stripe actions
     case ADD_PRODUCT_TO_CART:
+      let product = action.payload.product;
+      if (state.productsInCart[`${product.id}`]) {
+        product.quantity = action.payload.quantity + state.productsInCart[`${product.id}`].quantity;
+      } else {
+        product.quantity = action.payload.quantity;
+      }
       return {
         ...state,
-        productsInCart: [
+        productsInCart: {
           ...state.productsInCart,
-          action.payload
-        ]
+          [`${product.id}`]: product
+        }
       }
     default:
       return state;

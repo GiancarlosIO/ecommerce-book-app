@@ -49,6 +49,10 @@ export class InputCount extends Component {
     if (this.props.handleChange) this.props.handleChange(count);
   }
 
+  resetState = () => {
+    this.setState({ count: 1 });
+  }
+
   render() {
     const { count } = this.state;
     return (
