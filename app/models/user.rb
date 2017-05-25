@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_many :cards, dependent: :destroy
+  has_many :carts
 
   def self.from_omniauth(data={})
     User.where(provider: data[:info][:email]).first_or_create do |user|

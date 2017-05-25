@@ -14,6 +14,20 @@ export class ProductCard extends Component {
     count: 1
   }
 
+  addProductToCard = () => {
+    const { id, image, description, price, quantity, name, addToCart } = this.props;
+    addToCart({
+      id,
+      name,
+      description,
+      price,
+      quantity,
+      image
+    }, this.state.count);
+    this.inputCount.resetState();
+    this.setState({ count: 1 });
+  }
+
   updateCount = (count) => {
     this.setState({ count });
   }
@@ -41,18 +55,7 @@ export class ProductCard extends Component {
           <Button
             className="width-90 border-radius-none"
             bsStyle="success"
-            onClick={() => {
-                addToCart({
-                  id,
-                  name,
-                  description,
-                  price,
-                  quantity,
-                  image
-                }, this.state.count);
-                this.inputCount.resetState();
-              }
-            }
+            onClick={this.addProductToCard}
           >
             <Glyphicon glyph="shopping-cart"/>  Add
           </Button>
