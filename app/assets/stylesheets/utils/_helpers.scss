@@ -102,4 +102,9 @@
   &-full { width: 100%; }
   &-90 { width: 90px; }
   &-300 { width: 300px; }
+  &-min-100 { min-width: 100px; }
+}
+
+.display {
+  &-inBlock { display: inline-block; }
 }

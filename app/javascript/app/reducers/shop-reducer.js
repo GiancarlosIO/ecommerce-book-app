@@ -8,18 +8,7 @@ import {
 } from '../constants';
 
 const initialState = {
-  productsInCart: {
-    234: {
-      id: 234,
-      name: "To a God Unknown",
-      price: 24.45,
-      quantity: 14,
-      description: "Et sed culpa eum odit commodi expedita. Et optio aliquid ipsam ut. Aut illum alias dolor ex exercitationem ut.",
-      created_at: "2017-05-04T04:12:36.516Z",
-      updated_at: "2017-05-04T04:12:36.516Z",
-      image: "http://lorempixel.com/250/350/business",
-    }
-  },
+  productsInCart: {},
   subtotal: 0.00,
   total: 0.00,
   cardSelected: null,
@@ -58,6 +47,7 @@ const ShopReducer = (state=initialState, action) => {
       return {
         ...state,
         productsInCart: {
+          ...state.productsInCart,
           [`${action.payload.id}`]: {
             ...state.productsInCart[`${action.payload.id}`],
             quantity: action.payload.quantity

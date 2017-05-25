@@ -65,7 +65,14 @@ class User < ApplicationRecord
   def delete_card(card_id)
     StripeHelper.delete_card(self.customer_id, card_id)
     card = self.cards.find_by(identifier: card_id)
-    self.cards.last.update(default: true) if card.default
     card.destroy
+    if card.default
+      if self.cards.count > 1
+        return self.cards.last.update(default: true)
+      elsif self.cards.count == 1
+        return self.cards.first.update(default: true)
+      end
+    end
+    return true
   end
 end

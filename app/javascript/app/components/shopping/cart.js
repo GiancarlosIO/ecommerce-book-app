@@ -65,7 +65,7 @@ export const Cart = ({ id, image, name, quantity, price, handleChange, deleteCar
         </Button>
       </CartActions>
       <CartInfo className="text-bold text-blue-flat width-300">
-        <CartTitle>name</CartTitle>
+        <CartTitle>Name</CartTitle>
         <CartText>
           <Link to={`products/${id}`}>
             {name}
@@ -73,13 +73,13 @@ export const Cart = ({ id, image, name, quantity, price, handleChange, deleteCar
         </CartText>
       </CartInfo>
       <CartInfo>
-        <CartTitle>price</CartTitle>
+        <CartTitle>Price</CartTitle>
         <CartText>
           ${price}
         </CartText>
       </CartInfo>
       <CartInfo>
-        <CartTitle>quantity</CartTitle>
+        <CartTitle>Quantity</CartTitle>
         <CartText>
           <InputCount
             value={Number(quantity)}

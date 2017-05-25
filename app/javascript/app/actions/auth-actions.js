@@ -69,6 +69,7 @@ export const signoutUser = () => {
         console.log('signout user successfully', response);
         dispatch(unauthUser())
         resetSession();
+        location.replace('/products');
       })
       .catch(error => {
         console.log('error to signout user', error.response);
@@ -91,7 +92,7 @@ export const getCreditCards = () => {
         };
       })
       .catch(error => {
-        console.log('error to get credit cards', error.response);
+        console.log('error to get credit cards', error);
         if (error.response.status === 401) {
           dispatch(unauthUser());
           resetSession();

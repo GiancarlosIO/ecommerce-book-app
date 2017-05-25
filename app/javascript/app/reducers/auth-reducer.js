@@ -87,19 +87,18 @@ const AuthReducer = (state=initialState, action) => {
       };
     case REMOVE_CREDIT_CARD:
       let cards = { ...state.creditCards };
-      let card = cards[action.payload];
+      let card = { ...cards[action.payload] };
+      delete cards[action.payload];
       if (card.default) {
         const keys = Object.keys(cards);
-        const lastCard = cards[keys[keys.length - 1]];
-        lastCard.default = true;
-        delete cards[action.payload];
+        const lastCard = cards.length > 0 && cards[keys[0]];
+        if (cards.length > 1) lastCard.default = true;
         return {
           ...state,
           creditCards: cards,
           creditCardDefault: lastCard
         };
       }
-      delete cards[action.payload];
       return {
         ...state,
         creditCards: cards
