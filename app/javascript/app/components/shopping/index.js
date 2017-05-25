@@ -17,11 +17,13 @@ import {
   deleteCreditCard,
   updateCard,
   setCardMessage,
-  getCreditCards
+  getCreditCards,
+  createCreditCard
 } from '../../actions/auth-actions';
 
 import CartList from './cart-list';
 import Cards from '../profile/cards';
+import AddCard from '../profile/add-card';
 
 const ShoppingContainer = glamorous.div({
   background: 'rgba(236, 240, 241,1.0)',
@@ -63,9 +65,27 @@ export class Shopping extends Component {
     this.props.dispatch(calculateTotal());
   }
 
+  addCreditCard = (token) => {
+    console.log('adding card', token);
+    return this.props.dispatch(createCreditCard(token))
+      .then(() => {
+        this.AddCard.closeModal();
+      });
+  }
   setCardDefault = (id) => this.props.dispatch(updateCard(id));
   deleteCard = (id) => this.props.dispatch(deleteCreditCard(id));
   clearMessage = () => this.props.dispatch(setCardMessage(null));
+
+  createShop = () => {
+    const { subtotal, total, carts, creditCardDefault } = this.props;
+    const shop = {
+      total,
+      subtotal,
+      card: creditCardDefault,
+      products: Object.keys(carts)
+    }
+    console.log('creating cart', shop);
+  }
 
   componentDidMount() {
     this.setState({loadingCards: true}, () => {
@@ -123,6 +143,12 @@ export class Shopping extends Component {
               <Modal.Title>Select a credit-card for payment:</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+              <AddCard
+                ref={ c => this.AddCard = c }
+                addCreditCard={this.addCreditCard}
+                message={message}
+                clearMessage={this.clearMessage}
+              />
               <Cards
                 loading={loadingCards}
                 message={message}
@@ -133,7 +159,10 @@ export class Shopping extends Component {
               />
             </Modal.Body>
             <Modal.Footer>
-              <Button bsStyle="success">
+              <Button
+                bsStyle="success"
+                onClick={this.createShop}
+              >
                 Pay ${ Number(total).toFixed(2) }
               </Button>
             </Modal.Footer>
