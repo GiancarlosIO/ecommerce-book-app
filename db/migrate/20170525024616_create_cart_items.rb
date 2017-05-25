@@ -4,7 +4,7 @@ class CreateCartItems < ActiveRecord::Migration[5.1]
       t.references :product, foreign_key: true
       t.references :cart, foreign_key: true
       t.integer :quantity
-      t.integer :cost
+      t.decimal :cost
 
       t.timestamps
     end
