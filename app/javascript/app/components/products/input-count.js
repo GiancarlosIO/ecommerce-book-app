@@ -1,4 +1,4 @@
-import React, { Component }  from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Glyphicon
@@ -10,7 +10,7 @@ export class InputCount extends Component {
     count: this.props.value ? this.props.value : 1
   }
 
-  handleChange = (e) => {
+  handleChange = () => {
     const count = this.input.value;
     const reg = /^[0-9\b]+$/;
     if (reg.test(count)) {
@@ -22,9 +22,9 @@ export class InputCount extends Component {
 
   upCount = () => {
     let count = this.input.value;
-    if (parseInt(count)) {
-      count = parseInt(count);
-      count = count + 1;
+    if (parseInt(count, 10)) {
+      count = parseInt(count, 10);
+      count++;
       this.setState({ count }, () => {
         this.changeCallback(this.state.count);
       });
@@ -37,9 +37,9 @@ export class InputCount extends Component {
 
   downCount = () => {
     let count = this.input.value;
-    if (parseInt(count)) {
-      count = parseInt(count);
-      count = count - 1;
+    if (parseInt(count, 10)) {
+      count = parseInt(count, 10);
+      count--;
       this.setState({ count: count > 0 ? count : 1 }, () => {
         this.changeCallback(this.state.count);
       });
@@ -58,18 +58,29 @@ export class InputCount extends Component {
     const { count } = this.state;
     return (
       <div className="input-count">
-        <Glyphicon glyph="chevron-up" className="cursor-pointer margin-right-5" onClick={this.upCount} />
-        <input value={count} onChange={this.handleChange} ref={ el => this.input = el } />
-        <Glyphicon glyph="chevron-down" className="cursor-pointer margin-left-5" onClick={this.downCount} />
+        <Glyphicon
+          glyph="chevron-up"
+          className="cursor-pointer margin-right-5"
+          onClick={this.upCount}
+        />
+        <input
+          value={count}
+          onChange={this.handleChange}
+          ref={el => { this.input = el; }}
+        />
+        <Glyphicon
+          glyph="chevron-down"
+          className="cursor-pointer margin-left-5"
+          onClick={this.downCount}
+        />
       </div>
     );
-
   }
 }
 
 InputCount.propTypes = {
   handleChange: PropTypes.func,
   value: PropTypes.number
-}
+};
 
 export default InputCount;

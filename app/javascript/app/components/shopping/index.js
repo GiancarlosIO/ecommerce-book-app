@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import glamorous from 'glamorous';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -28,7 +29,7 @@ import AddCard from '../profile/add-card';
 const ShoppingContainer = glamorous.div({
   background: 'rgba(236, 240, 241,1.0)',
   padding: '10px 20px'
-})
+});
 
 const TotalContainer = glamorous.div({
   margin: '0 20px',
@@ -52,9 +53,12 @@ export class Shopping extends Component {
     loadingCards: false,
   }
 
-  hideModal = () => this.setState({ showModal: false });
-  showModal = () => this.setState({ showModal: true });
+  componentDidMount() {
+    this.props.dispatch(getCreditCards())
+      .then(() => this.setState({ loadingCards: false }));
+  }
 
+  setCardDefault = id => this.props.dispatch(updateCard(id));
   handleChange = (id, quantity) => {
     this.props.dispatch(setCartQuantity(id, quantity));
     this.props.dispatch(calculateTotal());
@@ -72,8 +76,10 @@ export class Shopping extends Component {
         this.AddCard.closeModal();
       });
   }
-  setCardDefault = (id) => this.props.dispatch(updateCard(id));
-  deleteCard = (id) => this.props.dispatch(deleteCreditCard(id));
+
+  hideModal = () => this.setState({ showModal: false });
+  showModal = () => this.setState({ showModal: true });
+  deleteCard = id => this.props.dispatch(deleteCreditCard(id));
   clearMessage = () => this.props.dispatch(setCardMessage(null));
 
   createShop = () => {
@@ -83,15 +89,8 @@ export class Shopping extends Component {
       subtotal,
       card: creditCardDefault,
       products: Object.keys(carts)
-    }
+    };
     console.log('creating cart', shop);
-  }
-
-  componentDidMount() {
-    this.setState({loadingCards: true}, () => {
-      this.props.dispatch(getCreditCards())
-        .then( () => this.setState({ loadingCards: false }) );
-    })
   }
 
   render() {
@@ -121,7 +120,7 @@ export class Shopping extends Component {
                 IGV:
               </span>
               <span className="text-green-flat text-right text-title margin-left-15 display-inBlock width-min-100">
-                ${(subtotal*0.18).toFixed(2)}
+                ${(subtotal * 0.18).toFixed(2)}
               </span>
             </div>
             <div>
@@ -144,7 +143,7 @@ export class Shopping extends Component {
             </Modal.Header>
             <Modal.Body>
               <AddCard
-                ref={ c => this.AddCard = c }
+                ref={(c) => { this.AddCard = c; }}
                 addCreditCard={this.addCreditCard}
                 message={message}
                 clearMessage={this.clearMessage}
@@ -174,12 +173,51 @@ export class Shopping extends Component {
           <h2>You has 0 products, <Link to="/products">go back to products page</Link> and add some products to cart</h2>
           <Link to="/products">Go to Products Page</Link>
         </div>
-      )
+      );
   }
 }
 
+Shopping.defaultProps = {
+  message: {},
+  creditCards: {},
+  creditCardDefault: {}
+};
 
-const mapStateToProps = (state) => ({
+Shopping.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  carts: PropTypes.objectOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    price: PropTypes.number,
+    quantity: PropTypes.number,
+    image: PropTypes.string
+  })).isRequired,
+  subtotal: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  total: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  creditCards: PropTypes.objectOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      last_four: PropTypes.string,
+      exp_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    }
+  )).isRequired,
+  creditCardDefault: PropTypes.shape({
+    id: PropTypes.number,
+    last_four: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    brand: PropTypes.string,
+    exp_moth: PropTypes.number,
+    exp_year: PropTypes.number,
+    default: PropTypes.bool
+  }).isRequired,
+  message: PropTypes.shape({
+    message: PropTypes.string,
+    status: PropTypes.string,
+    type: PropTypes.string
+  })
+};
+
+const mapStateToProps = state => ({
   creditCards: state.auth.creditCards,
   creditCardDefault: state.auth.creditCardDefault,
   message: state.auth.cardMessage,

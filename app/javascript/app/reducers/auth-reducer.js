@@ -13,14 +13,19 @@ import {
 
 const initialState = {
   authenticated: false,
-  errors: null,
-  user: null,
-  creditCardDefault: null,
-  creditCards: null,
-  cardMessage: null
+  errors: undefined,
+  user: {
+    name: '',
+    lastname: '',
+    email: '',
+    username: ''
+  },
+  creditCardDefault: undefined,
+  creditCards: undefined,
+  cardMessage: undefined
 };
 
-const AuthReducer = (state=initialState, action) => {
+const AuthReducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTH_USER:
       return {
@@ -36,7 +41,7 @@ const AuthReducer = (state=initialState, action) => {
         errors: [],
         creditCardDefault: null,
         creditCards: null
-      }
+      };
     case AUTH_ERROR:
       return {
         ...state,
@@ -51,7 +56,7 @@ const AuthReducer = (state=initialState, action) => {
       return {
         ...state,
         cardMessage: action.payload
-      }
+      };
     case SET_USER_DATA:
       return {
         ...state,
@@ -63,10 +68,10 @@ const AuthReducer = (state=initialState, action) => {
         ...state,
         creditCards: action.payload
       };
-    case SET_DEFAULT_CARD:
-      let creditCards = { ...state.creditCards };
-      Object.keys(creditCards).forEach( key => {
-        if (creditCards[key].id == action.payload.id) {
+    case SET_DEFAULT_CARD: {
+      const creditCards = { ...state.creditCards };
+      Object.keys(creditCards).forEach((key) => {
+        if (creditCards[key].id === action.payload.id) {
           creditCards[key].default = true;
         } else {
           creditCards[key].default = false;
@@ -76,7 +81,8 @@ const AuthReducer = (state=initialState, action) => {
         ...state,
         creditCardDefault: action.payload,
         creditCards
-      }
+      };
+    }
     case ADD_CREDIT_CARD:
       return {
         ...state,
@@ -85,9 +91,9 @@ const AuthReducer = (state=initialState, action) => {
           [`${action.payload.id}`]: action.payload
         }
       };
-    case REMOVE_CREDIT_CARD:
-      let cards = { ...state.creditCards };
-      let card = { ...cards[action.payload] };
+    case REMOVE_CREDIT_CARD: {
+      const cards = { ...state.creditCards };
+      const card = { ...cards[action.payload] };
       delete cards[action.payload];
       if (card.default) {
         const keys = Object.keys(cards);
@@ -102,10 +108,11 @@ const AuthReducer = (state=initialState, action) => {
       return {
         ...state,
         creditCards: cards
-      }
+      };
+    }
     default:
       return state;
   }
-}
+};
 
 export default AuthReducer;

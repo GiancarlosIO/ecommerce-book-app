@@ -19,9 +19,9 @@ const initialState = {
   loading: false,
   loadingPerPage: false,
   errorToGetProduct: null
-}
+};
 
-export default function(state=initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case SET_PRODUCTS:
       return {
@@ -32,12 +32,12 @@ export default function(state=initialState, action) {
       return {
         ...state,
         pages: action.payload
-      }
+      };
     case SET_PAGES_SHOWING:
       return {
         ...state,
         pagesShowing: action.payload
-      }
+      };
     case ADD_PRODUCTS_COLLECTION:
       return {
         ...state,
@@ -45,7 +45,7 @@ export default function(state=initialState, action) {
           ...state.all,
           ...action.payload
         }
-      }
+      };
     case SELECT_PRODUCT:
       return {
         ...state,
@@ -68,13 +68,13 @@ export default function(state=initialState, action) {
       return {
         ...state,
         loadingPerPage: action.payload
-      }
+      };
     case ERROR_TO_GET_PRODUCT:
       return {
         ...state,
         productSelected: null,
         errorToGetProduct: action.payload
-      }
+      };
     default:
       return state;
   }

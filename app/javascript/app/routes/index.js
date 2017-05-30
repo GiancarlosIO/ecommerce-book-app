@@ -12,7 +12,7 @@ import Products from '../components/products/';
 import ProductsShow from '../components/products-show/';
 // Layout
 import Header from '../components/navigation/header';
-import Footer from '../components/navigation/footer';
+// import Footer from '../components/navigation/footer';
 // authentication
 import Register from '../components/auth/register';
 import SignIn from '../components/auth/sign-in';
@@ -40,4 +40,4 @@ export default (
       <footer />
     </div>
   </Router>
-)
+);

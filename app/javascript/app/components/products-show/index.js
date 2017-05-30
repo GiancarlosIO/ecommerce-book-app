@@ -1,10 +1,10 @@
 import React from 'react';
-import { Row, Col, Grid }  from 'react-bootstrap';
+import { Row, Col, Grid } from 'react-bootstrap';
 
 import ProductDetails from './product-details';
 import ProductSideBar from './product-sideBar';
 
-const ProductsShow = (props) => (
+const ProductsShow = props => (
   <div>
     <Grid>
       <Row>
@@ -17,6 +17,6 @@ const ProductsShow = (props) => (
       </Row>
     </Grid>
   </div>
-)
+);
 
 export default ProductsShow;

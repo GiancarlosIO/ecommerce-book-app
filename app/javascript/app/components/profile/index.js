@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Grid, Row, Column, PageHeader } from 'react-bootstrap';
-import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
+import { Grid, Row, PageHeader } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import {
@@ -18,8 +18,18 @@ import AddCard from './add-card';
 export class Profile extends Component {
 
   state = {
-    loadingCards: false,
+    loadingCards: true,
     loadingAddCard: false
+  }
+
+  componentDidMount() {
+    this.props.dispatch(getCreditCards())
+      .then(() => this.setState({ loadingCards: false }));
+  }
+
+  setCardDefault = (id) => {
+    console.log('setting default card', id);
+    this.props.dispatch(updateCard(id));
   }
 
   addCreditCard = (token) => {
@@ -30,10 +40,6 @@ export class Profile extends Component {
       });
   }
 
-  setCardDefault = (id) => {
-    console.log('setting default card', id);
-    this.props.dispatch(updateCard(id));
-  }
 
   deleteCard = (id) => {
     console.log('deleting card', id);
@@ -44,24 +50,17 @@ export class Profile extends Component {
     this.props.dispatch(setCardMessage(null));
   }
 
-  componentDidMount() {
-    this.setState({loadingCards: true}, () => {
-      this.props.dispatch(getCreditCards())
-        .then( () => this.setState({ loadingCards: false }) );
-    })
-  }
-
   render() {
     const { user, creditCards, message } = this.props;
     return (
       <Grid>
         <Row>
-          <ProfileInfo {...user}/>
+          <ProfileInfo {...user} />
         </Row>
         <Row>
           <PageHeader>Credit Cards</PageHeader>
           <AddCard
-            ref={ c => this.AddCard = c }
+            ref={(c) => { this.AddCard = c; }}
             addCreditCard={this.addCreditCard}
             message={message}
             clearMessage={this.clearMessage}
@@ -76,11 +75,37 @@ export class Profile extends Component {
           />
         </Row>
       </Grid>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => ({
+Profile.defaultProps = {
+  creditCards: {},
+  message: {}
+};
+
+Profile.propTypes = {
+  creditCards: PropTypes.objectOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      last_four: PropTypes.string,
+      exp_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    }
+  )),
+  dispatch: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    email: PropTypes.string,
+    username: PropTypes.any,
+    name: PropTypes.any
+  }).isRequired,
+  message: PropTypes.shape({
+    message: PropTypes.string,
+    status: PropTypes.string,
+    type: PropTypes.string
+  }).isRequired
+};
+
+const mapStateToProps = state => ({
   user: state.auth.user,
   creditCards: state.auth.creditCards,
   message: state.auth.cardMessage

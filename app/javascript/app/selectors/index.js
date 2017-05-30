@@ -1,3 +1,3 @@
-import { createSelector } from 'reselect';
+// import { createSelector } from 'reselect';
 
-const productsInCart = (state) => state.shop.productsInCart;
+// const productsInCart = state => state.shop.productsInCart;

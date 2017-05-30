@@ -1,7 +1,8 @@
 import React from 'react';
-import { PageHeader, Panel, Table, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { PageHeader, Table, Button } from 'react-bootstrap';
 
-const ProfileInfo = (props) => (
+const ProfileInfo = props => (
   <div>
     <PageHeader>
       User information:
@@ -28,6 +29,20 @@ const ProfileInfo = (props) => (
       </tbody>
     </Table>
   </div>
-)
+);
+
+ProfileInfo.defaultProps = {
+  email: '',
+  name: '',
+  lastname: '',
+  username: ''
+};
+
+ProfileInfo.propTypes = {
+  email: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  lastname: PropTypes.string,
+  username: PropTypes.string
+};
 
 export default ProfileInfo;

@@ -1,4 +1,5 @@
-import React, { Component }  from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Well, Glyphicon, Button, Modal, Alert } from 'react-bootstrap';
 
 import StripeField from './stripe-field';
@@ -7,14 +8,14 @@ export class AddCard extends Component {
 
   state = {
     showModal: false
-  }
+  };
 
   closeModal = () => {
-    this.setState({showModal: false});
+    this.setState({ showModal: false });
   }
 
   openModal = () => {
-    this.setState({showModal: true});
+    this.setState({ showModal: true });
   };
 
   closeAlert = () => {
@@ -29,7 +30,7 @@ export class AddCard extends Component {
           (message && message.type === 'addCard') &&
           (
             <Alert
-              bsStyle={message.status === 'success' ? "success" : "warning"}
+              bsStyle={message.status === 'success' ? 'success' : 'warning'}
               onDismiss={this.closeAlert}
             >
               <p>{ message.message }</p>
@@ -54,6 +55,20 @@ export class AddCard extends Component {
       </Well>
     );
   }
+}
+
+AddCard.defaultProps = {
+  message: {
+    message: undefined
+  }
+};
+
+AddCard.propTypes = {
+  clearMessage: PropTypes.func.isRequired,
+  message: PropTypes.shape({
+    message: PropTypes.string
+  }),
+  addCreditCard: PropTypes.func.isRequired
 };
 
 export default AddCard;

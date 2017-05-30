@@ -1,6 +1,6 @@
 import React from 'react';
 import glamorous from 'glamorous';
-
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Button, Glyphicon } from 'react-bootstrap';
 import InputCount from '../products/input-count';
@@ -53,50 +53,57 @@ const CartText = glamorous.div({
   alignItems: 'center'
 });
 
-export const Cart = ({ id, image, name, quantity, price, handleChange, deleteCart }) => {
-  return (
-    <CartContainer>
-      <CartActions>
-        <Button
-          bsStyle="danger"
-          onClick={ () => {deleteCart(id)} }
-        >
-          <Glyphicon glyph="trash" />
-        </Button>
-      </CartActions>
-      <CartInfo className="text-bold text-blue-flat width-300">
-        <CartTitle>Name</CartTitle>
-        <CartText>
-          <Link to={`products/${id}`}>
-            {name}
-          </Link>
-        </CartText>
-      </CartInfo>
-      <CartInfo>
-        <CartTitle>Price</CartTitle>
-        <CartText>
-          ${price}
-        </CartText>
-      </CartInfo>
-      <CartInfo>
-        <CartTitle>Quantity</CartTitle>
-        <CartText>
-          <InputCount
-            value={Number(quantity)}
-            handleChange={
-              (count) => { handleChange(id, count) }
-            }
-          />
-        </CartText>
-      </CartInfo>
-      <CartInfo>
-        <CartTitle>Cost</CartTitle>
-        <CartText>
-          ${(price*quantity).toFixed(2)}
-        </CartText>
-      </CartInfo>
-    </CartContainer>
-  )
+export const Cart = ({ id, name, quantity, price, handleChange, deleteCart }) => (
+  <CartContainer>
+    <CartActions>
+      <Button
+        bsStyle="danger"
+        onClick={() => { deleteCart(id); }}
+      >
+        <Glyphicon glyph="trash" />
+      </Button>
+    </CartActions>
+    <CartInfo className="text-bold text-blue-flat width-300">
+      <CartTitle>Name</CartTitle>
+      <CartText>
+        <Link to={`products/${id}`}>
+          {name}
+        </Link>
+      </CartText>
+    </CartInfo>
+    <CartInfo>
+      <CartTitle>Price</CartTitle>
+      <CartText>
+        ${price}
+      </CartText>
+    </CartInfo>
+    <CartInfo>
+      <CartTitle>Quantity</CartTitle>
+      <CartText>
+        <InputCount
+          value={Number(quantity)}
+          handleChange={
+            (count) => { handleChange(id, count); }
+          }
+        />
+      </CartText>
+    </CartInfo>
+    <CartInfo>
+      <CartTitle>Cost</CartTitle>
+      <CartText>
+        ${(price * quantity).toFixed(2)}
+      </CartText>
+    </CartInfo>
+  </CartContainer>
+);
+
+Cart.propTypes = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  quantity: PropTypes.number.isRequired,
+  price: PropTypes.number.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  deleteCart: PropTypes.func.isRequired
 };
 
 export default Cart;
