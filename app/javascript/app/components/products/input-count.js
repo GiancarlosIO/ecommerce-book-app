@@ -66,7 +66,7 @@ export class InputCount extends Component {
         <input
           value={count}
           onChange={this.handleChange}
-          ref={el => { this.input = el; }}
+          ref={(el) => { this.input = el; }}
         />
         <Glyphicon
           glyph="chevron-down"
@@ -77,6 +77,11 @@ export class InputCount extends Component {
     );
   }
 }
+
+InputCount.defaultProps = {
+  value: 1,
+  handleChange: undefined
+};
 
 InputCount.propTypes = {
   handleChange: PropTypes.func,

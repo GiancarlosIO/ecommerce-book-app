@@ -12,7 +12,9 @@ import {
 
 const initialState = {
   all: null,
-  productSelected: null,
+  productSelected: {
+    categories: []
+  },
   textSearch: null,
   pages: null,
   pagesShowing: null,

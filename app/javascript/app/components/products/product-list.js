@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import {
@@ -51,11 +52,9 @@ export class ProductList extends Component {
 
   renderProducts = () => {
     const { products } = this.props;
-    if (products) {
-      return Object.keys(products).map(key =>
+    return products && Object.keys(products).map(key =>
         (<ProductCard key={key} {...products[key]} addToCart={this.addToCart} />)
       );
-    }
   }
 
   render() {
@@ -78,7 +77,31 @@ export class ProductList extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+ProductList.defaultProps = {
+  pages: 1,
+  pagesShowing: 1,
+  loading: false,
+  loadingPerPage: false,
+  products: {}
+};
+
+ProductList.propTypes = {
+  loading: PropTypes.bool,
+  dispatch: PropTypes.func.isRequired,
+  loadingPerPage: PropTypes.bool,
+  pages: PropTypes.number,
+  pagesShowing: PropTypes.number,
+  products: PropTypes.objectOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired
+  }))
+};
+
+const mapStateToProps = state => ({
   loading: state.products.loading,
   loadingPerPage: state.products.loadingPerPage,
   pages: state.products.pages,

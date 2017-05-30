@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
   Button, Glyphicon
@@ -84,10 +85,20 @@ export class ProductCard extends Component {
           >
             <Glyphicon glyph="shopping-cart" />  Add
           </Button>
-          </div>
+        </div>
       </div>
     );
   }
 }
+
+ProductCard.propTypes = {
+  id: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  quantity: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  addToCart: PropTypes.func.isRequired
+};
 
 export default ProductCard;

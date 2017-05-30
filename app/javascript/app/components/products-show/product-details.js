@@ -14,7 +14,7 @@ export class ProductDetails extends Component {
 
   render() {
     const { productSelected: product, error } = this.props;
-    if (product && !error) {
+    if (product.id && !error) {
       return (
         <Panel header={product.name} bsStyle="primary">
           <Col xs={12} className="margin-bottom-15">
@@ -102,7 +102,9 @@ ProductDetails.defaultProps = {
 
 ProductDetails.propTypes = {
   match: PropTypes.shape({
-    params: PropTypes.string
+    params: PropTypes.shape({
+      id: PropTypes.string
+    })
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
   productSelected: PropTypes.shape({
