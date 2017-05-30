@@ -76,4 +76,19 @@ class User < ApplicationRecord
     end
     return true
   end
+
+  # Create charges - payments
+  def create_charge(cart)
+    StripeHelper.create_charge(self.customer_id, cart[:card_id], cart[:amount], cart[:currency])
+    user_cart = self.carts.create(
+      igv: cart[:igv],
+      discount: cart[:discount],
+      subtotal: cart[:subtotal],
+      total: cart[:total]
+    )
+    cart[:products].each do |product|
+      user_cart.cart_items.create(product_id: product[:id], quantity: product[:quantity], cost: product[:price] )
+    end
+    return user_cart
+  end
 end
