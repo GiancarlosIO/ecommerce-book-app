@@ -94,6 +94,7 @@ export class Shopping extends Component {
   }
 
   render() {
+    console.log('rendering shopping');
     const { carts, subtotal, total, creditCards, message } = this.props;
     const { showModal, loadingCards } = this.state;
 

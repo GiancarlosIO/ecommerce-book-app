@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { CSSTransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import {
@@ -64,14 +65,20 @@ export class ProductList extends Component {
         <div className="margin-rightLeft-10">
           <h1>Products</h1>
         </div>
-        <div
-          className={`
-            product-card-container flex flex-rowWrap flex-justifyAround flex-alignItems
-          `}
-        >
-          { loading ? 'Loading Products' : this.renderProducts() }
-          { loadingPerPage && (<div><h1 className="margin-bottom-20">Loading...</h1></div>) }
-        </div>
+        { loading ?
+          'Loading Products' :
+          <CSSTransitionGroup
+            className="product-card-container flex flex-rowWrap flex-justifyAround flex-alignItems"
+            transitionName="fadeIn"
+            transitionAppear
+            transitionAppearTimeout={500}
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={300}
+          >
+            { this.renderProducts() }
+          </CSSTransitionGroup>
+        }
+        { loadingPerPage && (<div><h1 className="margin-bottom-20">Loading...</h1></div>) }
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { CSSTransitionGroup } from 'react-transition-group';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // =========== Components ===========
@@ -27,16 +28,29 @@ export default (
   <Router>
     <div>
       <Header />
-      <Switch>
-        <Route exact path="/" component={Landing} />
-        <Route path="/register" component={HideAuth(Register)} />
-        <Route path="/sign_in" component={HideAuth(SignIn)} />
-        <Route path="/profile" component={RequireAuth(Profile)} />
-        <Route path="/products/:id" component={ProductsShow} />
-        <Route path="/products" component={Products} />
-        <Route path="/shopping" component={Shopping} />
-        <Route component={NotFound} />
-      </Switch>
+      <Route render={({ location }) => (
+        <CSSTransitionGroup
+          transitionName="page"
+          transitionAppear
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={100}
+        >
+          <Route location={location} key={location.key}>
+            <Switch>
+              <Route exact path="/" component={Landing} />
+              <Route path="/register" component={HideAuth(Register)} />
+              <Route path="/sign_in" component={HideAuth(SignIn)} />
+              <Route path="/profile" component={RequireAuth(Profile)} />
+              <Route path="/products/:id" component={ProductsShow} />
+              <Route path="/products" component={Products} />
+              <Route path="/shopping" component={Shopping} />
+              <Route component={NotFound} />
+            </Switch>
+          </Route>
+        </CSSTransitionGroup>
+        )}
+      />
       <footer />
     </div>
   </Router>
