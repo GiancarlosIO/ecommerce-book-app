@@ -22,6 +22,11 @@ import {
   createCreditCard
 } from '../../actions/auth-actions';
 
+import {
+  createCharge,
+  setLoadingCharge
+} from '../../actions/charge-actions';
+
 import CartList from './cart-list';
 import Cards from '../profile/cards';
 import AddCard from '../profile/add-card';
@@ -84,18 +89,20 @@ export class Shopping extends Component {
 
   createShop = () => {
     const { subtotal, total, carts, creditCardDefault } = this.props;
-    const shop = {
+    const cart = {
+      card_id: creditCardDefault.identifier,
       total,
       subtotal,
-      card: creditCardDefault,
-      products: Object.keys(carts)
+      products: Object.keys(carts).map(i => carts[`${i}`])
     };
-    console.log('creating cart', shop);
+    console.log('creating cart', cart);
+    this.props.dispatch(setLoadingCharge(true));
+    this.props.dispatch(createCharge(cart));
   }
 
   render() {
     console.log('rendering shopping');
-    const { carts, subtotal, total, creditCards, message } = this.props;
+    const { carts, subtotal, total, creditCards, message, loadingCharge } = this.props;
     const { showModal, loadingCards } = this.state;
 
     return Object.keys(carts).length > 0 ?
@@ -162,8 +169,13 @@ export class Shopping extends Component {
               <Button
                 bsStyle="success"
                 onClick={this.createShop}
+                disabled={loadingCharge}
               >
-                Pay ${ Number(total).toFixed(2) }
+                {
+                  loadingCharge ?
+                  (<span>Loading...</span>) :
+                  `Pay $ ${Number(total).toFixed(2)}`
+                }
               </Button>
             </Modal.Footer>
           </Modal>
@@ -185,6 +197,7 @@ Shopping.defaultProps = {
 };
 
 Shopping.propTypes = {
+  loadingCharge: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   carts: PropTypes.objectOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -224,7 +237,8 @@ const mapStateToProps = state => ({
   message: state.auth.cardMessage,
   carts: state.shop.productsInCart,
   subtotal: state.shop.subtotal,
-  total: state.shop.total
+  total: state.shop.total,
+  loadingCharge: state.charge.loadingCharge
 });
 
 export default connect(mapStateToProps)(Shopping);

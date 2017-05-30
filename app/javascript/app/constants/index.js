@@ -29,3 +29,6 @@ export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART';
 export const CALCULATE_TOTAL = 'CALCULATE_TOTAL';
 export const SET_CART_QUANTITY = 'SET_CART_QUANTITY';
 export const DELETE_CART = 'DELETE_CART';
+// Charge constants
+export const SET_CHARGES = 'SET_CHARGES';
+export const SET_LOADING_CHARGE = 'SET_LOADING_CHARGE';

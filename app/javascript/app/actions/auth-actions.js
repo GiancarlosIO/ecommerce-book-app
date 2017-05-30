@@ -17,28 +17,28 @@ import {
 } from '../utils/api/header-config';
 
 export const authUser = () => ({ type: AUTH_USER });
-export const setUserData = (user) => ({ type: SET_USER_DATA, payload: user });
-export const authError = (error) => ({ type: AUTH_ERROR, payload: error });
+export const setUserData = user => ({ type: SET_USER_DATA, payload: user });
+export const authError = error => ({ type: AUTH_ERROR, payload: error });
 export const unauthUser = () => ({ type: UNAUTH_USER });
-export const setCreditCards = (cards) => ({ type: SET_CREDIT_CARDS, payload: cards });
-export const setDefaultCard = (card) => ({ type: SET_DEFAULT_CARD, payload: card });
-export const addCreditCard = (card) => ({ type: ADD_CREDIT_CARD, payload: card });
-export const removeCreditCard = (id) => ({ type: REMOVE_CREDIT_CARD, payload: id });
+export const setCreditCards = cards => ({ type: SET_CREDIT_CARDS, payload: cards });
+export const setDefaultCard = card => ({ type: SET_DEFAULT_CARD, payload: card });
+export const addCreditCard = card => ({ type: ADD_CREDIT_CARD, payload: card });
+export const removeCreditCard = id => ({ type: REMOVE_CREDIT_CARD, payload: id });
 export const clearAuthErrors = () => ({ type: CLEAR_AUTH_ERRORS });
-export const setCardMessage = (message) => ({ type: SET_ADD_CARD_MESSAGE, payload: message });
+export const setCardMessage = message => ({ type: SET_ADD_CARD_MESSAGE, payload: message });
 
 // Async actions
 
 export const signupUser = (email, password) =>
   (dispatch, getState, { AuthAPI }) =>
     AuthAPI.signup(email, password).request
-      .then(response => {
+      .then((response) => {
         console.log('signup user successfully', response);
         dispatch(authUser());
         dispatch(setUserData(response.data.user));
         setSession(response.data.user, response.data.session);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('error to signup user', error.response);
         dispatch(authError(error.response.data.error.user));
       });
@@ -46,13 +46,13 @@ export const signupUser = (email, password) =>
 export const signinUser = (email, password) =>
   (dispatch, getState, { AuthAPI }) =>
     AuthAPI.signin(email, password).request
-      .then(response => {
+      .then((response) => {
         console.log('signin user successfully', response);
         dispatch(authUser());
         dispatch(setUserData(response.data.user));
         setSession(response.data.user, response.data.session);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('error to signin user', error.response);
         dispatch(authError([error.response.data.error.user]));
       });
@@ -60,13 +60,13 @@ export const signinUser = (email, password) =>
 export const signoutUser = () =>
   (dispatch, getState, { AuthAPI }) =>
     AuthAPI.signout().request
-      .then(response => {
+      .then((response) => {
         console.log('signout user successfully', response);
         dispatch(unauthUser());
         resetSession();
         window.location.replace('/products');
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('error to signout user', error.response);
         dispatch(authError(error.response.error.user));
       });
@@ -74,17 +74,17 @@ export const signoutUser = () =>
 export const getCreditCards = () =>
   (dispatch, getState, { CardAPI }) =>
     CardAPI.index().request
-      .then(response => {
+      .then((response) => {
         console.log('get credit cards successfully', response);
         if (response.data.cards.length > 0) {
           const objCards = {};
-          response.data.cards.forEach(card => { objCards[card.id] = card; });
+          response.data.cards.forEach((card) => { objCards[card.id] = card; });
           dispatch(setCreditCards(objCards));
           const defaultCard = response.data.cards.filter(card => card.default);
           dispatch(setDefaultCard(defaultCard[0]));
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('error to get credit cards', error);
         if (error.response.status === 401) {
           dispatch(unauthUser());
@@ -92,10 +92,10 @@ export const getCreditCards = () =>
         }
       });
 
-export const createCreditCard = (token) =>
+export const createCreditCard = token =>
   (dispatch, getState, { CardAPI }) =>
     CardAPI.create(token).request
-      .then(response => {
+      .then((response) => {
         console.log('create card successfully', response);
         dispatch(addCreditCard(response.data.card));
         dispatch(setCardMessage({
@@ -104,7 +104,7 @@ export const createCreditCard = (token) =>
           message: 'Credit card added successfully'
         }));
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('error to add card', error.response);
         if (error.response.status === 401) {
           dispatch(unauthUser());
@@ -124,15 +124,15 @@ export const createCreditCard = (token) =>
         }
       });
 
-export const updateCard = (id) =>
+export const updateCard = id =>
   (dispatch, getState, { CardAPI }) =>
     CardAPI.setDefault(id).request
-      .then(response => {
+      .then((response) => {
         console.log('update card successfully', response);
         const card = getState().auth.creditCards[id];
         dispatch(setDefaultCard(card));
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('error to update card', error);
         if (error.response.status === 401) {
           dispatch(unauthUser());
@@ -140,10 +140,10 @@ export const updateCard = (id) =>
         }
       });
 
-export const deleteCreditCard = (id) =>
+export const deleteCreditCard = id =>
   (dispatch, getState, { CardAPI }) =>
     CardAPI.delete(id).request
-      .then(response => {
+      .then((response) => {
         console.log('card deleted successfully', response);
         dispatch(removeCreditCard(id));
         dispatch(setCardMessage({
@@ -152,7 +152,7 @@ export const deleteCreditCard = (id) =>
           message: 'Credit card deleted successfully'
         }));
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('error to delete creditCard', error.response);
         if (error.response.status === 401) {
           dispatch(unauthUser());
