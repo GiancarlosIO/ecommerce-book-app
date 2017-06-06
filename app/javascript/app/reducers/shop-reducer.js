@@ -4,7 +4,8 @@ import {
   ADD_PRODUCT_TO_CART,
   CALCULATE_TOTAL,
   SET_CART_QUANTITY,
-  DELETE_CART
+  DELETE_CART,
+  SET_LOADING_SHOP_ACTIONS
 } from '../constants';
 
 const initialState = {
@@ -12,7 +13,8 @@ const initialState = {
   subtotal: 0.00,
   total: 0.00,
   cardSelected: null,
-  cardToken: null
+  cardToken: null,
+  loadingShopActions: false
 };
 
 const ShopReducer = (state = initialState, action) => {
@@ -75,6 +77,11 @@ const ShopReducer = (state = initialState, action) => {
         total: (prices + (prices * 0.18)).toFixed(2)
       };
     }
+    case SET_LOADING_SHOP_ACTIONS:
+      return {
+        ...state,
+        loadingShopActions: action.payload
+      };
     default:
       return state;
   }

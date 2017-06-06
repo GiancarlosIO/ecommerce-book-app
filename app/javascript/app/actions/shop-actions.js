@@ -2,7 +2,8 @@ import {
   ADD_PRODUCT_TO_CART,
   CALCULATE_TOTAL,
   SET_CART_QUANTITY,
-  DELETE_CART
+  DELETE_CART,
+  SET_LOADING_SHOP_ACTIONS
 } from '../constants/';
 
 export const addProductToCart = (product, quantity) => ({
@@ -18,4 +19,8 @@ export const setCartQuantity = (id, quantity) => ({
 });
 export const calculateTotal = () => ({
   type: CALCULATE_TOTAL
+});
+export const setLoadingShopActions = value => ({
+  type: SET_LOADING_SHOP_ACTIONS,
+  payload: value
 });
