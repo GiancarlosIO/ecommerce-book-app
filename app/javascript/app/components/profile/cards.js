@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Table, Alert } from 'react-bootstrap';
 
 import Card from './card';
+import Loader from '../ui/loader';
 
 const ProfileCards = (props) => {
   const renderCards = (cards) => {
@@ -54,12 +55,19 @@ const ProfileCards = (props) => {
       {
         (
           !props.loading && (renderCards(props.creditCards).length > 0) &&
-          (<Table condensed responsive bordered className="text-center">
-            <tbody>
-              { renderCards(props.creditCards) }
-            </tbody>
-          </Table>)
-
+          (
+            <div>
+              <Loader
+                show={props.loadingUserActions}
+                type="rect"
+              />
+              <Table condensed responsive bordered className="text-center">
+                <tbody>
+                  { renderCards(props.creditCards) }
+                </tbody>
+              </Table>
+            </div>
+          )
         )
       }
     </div>
@@ -67,7 +75,8 @@ const ProfileCards = (props) => {
 };
 
 ProfileCards.defaultProps = {
-  creditCards: undefined
+  creditCards: undefined,
+  loadingUserActions: false
 };
 
 ProfileCards.propTypes = {
@@ -79,7 +88,8 @@ ProfileCards.propTypes = {
       last_four: PropTypes.string,
       exp_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     }
-  )).isRequired
+  )).isRequired,
+  loadingUserActions: PropTypes.bool
 };
 
 export default ProfileCards;

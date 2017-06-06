@@ -8,7 +8,8 @@ import {
   createCreditCard,
   deleteCreditCard,
   updateCard,
-  setCardMessage
+  setCardMessage,
+  setLoadingUserActions
 } from '../../actions/auth-actions';
 
 import ProfileInfo from './info';
@@ -29,6 +30,7 @@ export class Profile extends Component {
 
   setCardDefault = (id) => {
     console.log('setting default card', id);
+    this.props.dispatch(setLoadingUserActions(true));
     this.props.dispatch(updateCard(id));
   }
 
@@ -43,6 +45,7 @@ export class Profile extends Component {
 
   deleteCard = (id) => {
     console.log('deleting card', id);
+    this.props.dispatch(setLoadingUserActions(true));
     this.props.dispatch(deleteCreditCard(id));
   }
 
@@ -51,7 +54,7 @@ export class Profile extends Component {
   }
 
   render() {
-    const { user, creditCards, message } = this.props;
+    const { user, creditCards, message, loadingUserActions } = this.props;
     return (
       <Grid>
         <Row>
@@ -72,6 +75,7 @@ export class Profile extends Component {
             setCardDefault={this.setCardDefault}
             message={message}
             clearMessage={this.clearMessage}
+            loadingUserActions={loadingUserActions}
           />
         </Row>
       </Grid>
@@ -81,7 +85,8 @@ export class Profile extends Component {
 
 Profile.defaultProps = {
   creditCards: {},
-  message: {}
+  message: {},
+  loadingUserActions: false
 };
 
 Profile.propTypes = {
@@ -102,13 +107,15 @@ Profile.propTypes = {
     message: PropTypes.string,
     status: PropTypes.string,
     type: PropTypes.string
-  }).isRequired
+  }),
+  loadingUserActions: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
   user: state.auth.user,
+  loadingUserActions: state.auth.loadingUserActions,
   creditCards: state.auth.creditCards,
-  message: state.auth.cardMessage
+  message: state.auth.cardMessage,
 });
 
 export default connect(mapStateToProps)(Profile);
