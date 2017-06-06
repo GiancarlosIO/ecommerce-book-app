@@ -1,11 +1,13 @@
 import {
   SET_CHARGES,
-  SET_LOADING_CHARGE
+  SET_LOADING_CHARGE,
+  SET_CHARGE_SUCCESS
 } from '../constants/';
 
 const initialState = {
   all: null,
-  loadingCharge: false
+  loadingCharge: false,
+  chargeSuccess: false
 };
 
 export default function (state = initialState, action) {
@@ -19,6 +21,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loadingCharge: action.payload
+      };
+    case SET_CHARGE_SUCCESS:
+      return {
+        ...state,
+        chargeSuccess: action.payload
       };
     default:
       return state;

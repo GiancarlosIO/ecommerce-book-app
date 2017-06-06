@@ -1,6 +1,7 @@
 import {
   SET_CHARGES,
-  SET_LOADING_CHARGE
+  SET_LOADING_CHARGE,
+  SET_CHARGE_SUCCESS
 } from '../constants/';
 
 export const setCharges = charges => ({
@@ -9,6 +10,10 @@ export const setCharges = charges => ({
 });
 
 export const setLoadingCharge = loading => ({ type: SET_LOADING_CHARGE, payload: loading });
+export const setChargeSucces = value => ({
+  type: SET_CHARGE_SUCCESS,
+  payload: value
+});
 
 export const getCharges = () =>
   (dispatch, getState, { ChargeAPI }) =>
@@ -26,7 +31,7 @@ export const createCharge = cart =>
       .then((response) => {
         console.log('charge created', response);
         dispatch(setLoadingCharge(false));
-        window.location.replace('/products');
+        dispatch(setChargeSucces(true));
       })
       .catch((error) => {
         console.log('error to create charge', error);
