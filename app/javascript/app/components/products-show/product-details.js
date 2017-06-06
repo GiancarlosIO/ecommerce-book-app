@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Row, Button, Panel, Well, Image, Grid, Col, PageHeader, Table } from 'react-bootstrap';
+import { Button, Panel, Well, Image, Col, Table } from 'react-bootstrap';
 import { getProductById } from '../../actions/product-actions';
 
 export class ProductDetails extends Component {
 
 
   componentDidMount() {
-    const { id } = this.props.match.params
+    const { id } = this.props.match.params;
     this.props.dispatch(getProductById(id));
   }
 
   render() {
     const { productSelected: product, error } = this.props;
-    if (product && !error) {
-     return (
+    if (product.id && !error) {
+      return (
         <Panel header={product.name} bsStyle="primary">
           <Col xs={12} className="margin-bottom-15">
             <button className="float-right btn-red-flat btn-min">Add to car</button>
           </Col>
           <Col md={3} sm={4} xs={12}>
-            <Image src={product.image} alt={product.name} circle responsive/>
+            <Image src={product.image} alt={product.name} circle responsive />
           </Col>
           <Col sm={8} md={9} xs={12}>
             <Table responsive bordered>
@@ -82,18 +83,37 @@ export class ProductDetails extends Component {
             </Well>
           </Col>
         </Panel>
-      )
+      );
     } else if (error) {
-      return (<h2>{ error }</h2>)
-    } else {
-      return (<h2> Loading... </h2>)
+      return (<h2>{ error }</h2>);
     }
+    return (<h2> Loading... </h2>);
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   productSelected: state.products.productSelected,
-  error: state.products.errorToGetProduct
+  error: state.products.errorToGetProduct,
 });
+
+ProductDetails.defaultProps = {
+  error: undefined
+};
+
+ProductDetails.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string
+    })
+  }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  productSelected: PropTypes.shape({
+    name: PropTypes.string,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    image: PropTypes.string,
+    price: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  }).isRequired,
+  error: PropTypes.string
+};
 
 export default connect(mapStateToProps)(ProductDetails);

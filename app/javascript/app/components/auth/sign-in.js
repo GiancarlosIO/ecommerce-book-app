@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, SubmissionError, Field } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import { Button, Col, Row, Panel, Alert, Glyphicon } from 'react-bootstrap';
 import FieldForm from './field';
 import { validateSigninForm } from './form-validations/';
@@ -9,7 +9,11 @@ import { signinUser, clearAuthErrors } from '../../actions/auth-actions';
 
 export class SignIn extends Component {
 
-  onSubmit = (values, dispatch, formProps) => {
+  componentWillUnmount() {
+    this.props.dispatch(clearAuthErrors());
+  }
+
+  onSubmit = (values) => {
     console.log('Sign in form', values);
     this.props.dispatch(signinUser(values.email, values.password));
   }
@@ -17,21 +21,17 @@ export class SignIn extends Component {
   renderErrors = () => {
     const { errors } = this.props;
     if (errors) {
-      let errorsArray = errors.map((error, index) => (
+      const errorsArray = errors.map((error, index) => (
         <Alert key={index} bsStyle="warning">
           <Glyphicon glyph="warning-sign" />  { error }
         </Alert>
       ));
       return (<div>{errorsArray}</div>);
-    };
-  }
-
-  componentWillUnmount() {
-    this.props.dispatch(clearAuthErrors());
+    }
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, error } = this.props;
+    const { handleSubmit } = this.props;
     return (
       <Row>
         <Col xs={12} sm={6} lg={4} smOffset={3} lgOffset={4}>
@@ -64,7 +64,7 @@ export class SignIn extends Component {
 const SignInConfigured = reduxForm({
   form: 'signin',
   validate: validateSigninForm
-})(SignIn)
+})(SignIn);
 
 const mapStateToProps = (state) => ({ errors: state.auth.errors });
 

@@ -1,5 +1,6 @@
-const { env } = require('process');
 import axios from 'axios';
+
+const { env } = require('process');
 
 // import {
 //   getHeaderForRequest
@@ -8,28 +9,28 @@ import axios from 'axios';
 const BASE_URL = env.NODE_ENV === 'test' ? 'http://localhost:3000/api/v1/products' : '/api/v1/products';
 
 const ProductAPI = {
-  getProducts: (page=1) => {
-    let CancelToken = axios.CancelToken;
+  getProducts: (page = 1) => {
+    const CancelToken = axios.CancelToken;
     let cancel;
-    let request = axios({
+    const request = axios({
       method: 'get',
       url: `${BASE_URL}?page=${page}`,
       responseType: 'json',
-      cancelToken: new CancelToken( c => cancel = c )
+      cancelToken: new CancelToken((c) => { cancel = c; })
     });
     return { request, cancel };
   },
   getProductById: (id) => {
-    let CancelToken = axios.CancelToken;
+    const CancelToken = axios.CancelToken;
     let cancel;
-    let request = axios({
+    const request = axios({
       method: 'get',
       url: `${BASE_URL}/${id}`,
       responseType: 'json',
-      cancelToken: new CancelToken( c => cancel = c)
+      cancelToken: new CancelToken((c) => { cancel = c; })
     });
     return { request, cancel };
   }
-}
+};
 
 export default ProductAPI;

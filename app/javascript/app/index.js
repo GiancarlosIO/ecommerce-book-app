@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -13,6 +14,7 @@ import RootReducers from './reducers/';
 import AuthAPI from './utils/api/auth-api';
 import ProductAPI from './utils/api/product-api';
 import CardAPI from './utils/api/card-api';
+import ChargeAPI from './utils/api/charge-api';
 // utils
 import { verifyToken, getSession } from './utils/api/header-config';
 // configure Redux extension
@@ -24,7 +26,7 @@ const componseEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 // )(createStore);
 // export const store = storeWithMiddlewares(RootReducers);
 export const store = createStore(RootReducers, {}, componseEnhancers(
-  applyMiddleware(ReduxThunk.withExtraArgument({ AuthAPI, ProductAPI, CardAPI }))
+  applyMiddleware(ReduxThunk.withExtraArgument({ AuthAPI, ProductAPI, CardAPI, ChargeAPI }))
 ));
 
 // validate session

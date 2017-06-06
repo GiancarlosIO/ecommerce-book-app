@@ -14,19 +14,27 @@ import {
   setCategories
 } from './category-actions';
 
-export const setProducts = (products, pages) => ({ type: SET_PRODUCTS, payload:products });
+export const setProducts = (products) => ({
+  type: SET_PRODUCTS,
+  payload: products
+});
 export const setPagesProducts = (pages) => ({ type: SET_PAGES_PRODUCTS, payload: pages });
 export const setPagesShowing = (pages) => ({ type: SET_PAGES_SHOWING, payload: pages });
-export const addProductsCollection = (products) => ({ type: ADD_PRODUCTS_COLLECTION, payload: products });
+export const addProductsCollection = (products) => ({
+  type: ADD_PRODUCTS_COLLECTION,
+  payload: products
+});
 export const selectProduct = (product) => ({ type: SELECT_PRODUCT, payload: product });
 export const updateNote = (product) => ({ type: UPDATE_PRODUCT, payload: product });
 export const loadingProducts = (loading) => ({ type: LOADING, payload: loading });
-export const setLoadingPerPage = (loadingPerPage) => ({ type: LOADING_PER_PAGE, payload: loadingPerPage });
+export const setLoadingPerPage = (loadingPerPage) => ({
+  type: LOADING_PER_PAGE,
+  payload: loadingPerPage });
 export const setErrorToGetProduct = (error) => ({ type: ERROR_TO_GET_PRODUCT, payload: error });
 
-export const getProducts = () => {
-  return (dispatch, getState, { ProductAPI }) => {
-    return ProductAPI.getProducts(1).request
+export const getProducts = () =>
+  (dispatch, getState, { ProductAPI }) =>
+    ProductAPI.getProducts(1).request
       .then(response => {
         const productsObj = {};
         const categoriesObj = {};
@@ -46,13 +54,11 @@ export const getProducts = () => {
       .catch(error => {
         console.log('error to get products', error.response);
         dispatch(loadingProducts(false));
-      })
-  }
-}
+      });
 
-export const getProductsPerPage = (page) => {
-  return (dispatch, getState, { ProductAPI }) => {
-    return ProductAPI.getProducts(page).request
+export const getProductsPerPage = (page) =>
+  (dispatch, getState, { ProductAPI }) =>
+    ProductAPI.getProducts(page).request
       .then(response => {
         const productsObj = {};
         response.data.products.forEach(product => {
@@ -67,13 +73,11 @@ export const getProductsPerPage = (page) => {
       .catch(error => {
         console.log('error to get products by page', error.response);
         dispatch(setLoadingPerPage(false));
-      })
-  }
-};
+      });
 
-export const getProductById = (id) => {
-  return (dispatch, getState, { ProductAPI }) => {
-    return ProductAPI.getProductById(id).request
+export const getProductById = (id) =>
+  (dispatch, getState, { ProductAPI }) =>
+    ProductAPI.getProductById(id).request
       .then(response => {
         console.log('get product succcessfully');
         dispatch(selectProduct(response.data.product));
@@ -83,6 +87,4 @@ export const getProductById = (id) => {
         if (error.response.status === 404) {
           dispatch(setErrorToGetProduct(error.response.data.error));
         }
-      })
-  }
-}
+      });

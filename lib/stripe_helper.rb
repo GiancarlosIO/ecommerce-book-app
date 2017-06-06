@@ -43,7 +43,7 @@ module StripeHelper
   # charges
   def self.create_charge(customer_id, card_id, amount, currency)
     Stripe::Charge.create(
-      amount: (amount*100),
+      amount: (amount.to_f * 100).to_i,
       currency: currency,
       source: card_id,
       customer: customer_id

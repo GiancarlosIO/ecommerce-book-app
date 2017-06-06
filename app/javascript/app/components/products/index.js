@@ -9,6 +9,6 @@ const Products = () => (
       <ProductList />
     </Col>
   </Grid>
-)
+);
 
 export default Products;

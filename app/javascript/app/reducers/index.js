@@ -4,6 +4,7 @@ import AuthReducer from './auth-reducer';
 import ProductReducer from './product-reducer';
 import CategoryReducer from './category-reducer';
 import ShopReducer from './shop-reducer';
+import ChargeReducer from './charge-reducer';
 
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   products: ProductReducer,
   categories: CategoryReducer,
   shop: ShopReducer,
+  charge: ChargeReducer,
   form: formReducer
 });
 

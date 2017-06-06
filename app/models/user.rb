@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_many :cards, dependent: :destroy
+  has_many :carts
 
   def self.from_omniauth(data={})
     User.where(provider: data[:info][:email]).first_or_create do |user|
@@ -65,7 +66,29 @@ class User < ApplicationRecord
   def delete_card(card_id)
     StripeHelper.delete_card(self.customer_id, card_id)
     card = self.cards.find_by(identifier: card_id)
-    self.cards.last.update(default: true) if card.default
     card.destroy
+    if card.default
+      if self.cards.count > 1
+        return self.cards.last.update(default: true)
+      elsif self.cards.count == 1
+        return self.cards.first.update(default: true)
+      end
+    end
+    return true
+  end
+
+  # Create charges - payments
+  def create_charge(cart)
+    StripeHelper.create_charge(self.customer_id, cart[:card_id], cart[:amount], cart[:currency])
+    user_cart = self.carts.create(
+      igv: cart[:igv],
+      discount: cart[:discount],
+      subtotal: cart[:subtotal],
+      total: cart[:total]
+    )
+    cart[:products].each do |product|
+      user_cart.cart_items.create(product_id: product[:id], quantity: product[:quantity], cost: product[:price] )
+    end
+    return user_cart
   end
 end

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Glyphicon } from 'react-bootstrap';
 
 export class StripeField extends Component {
@@ -21,7 +22,7 @@ export class StripeField extends Component {
       console.log('stripe field');
       // Create token of card
       this.stripe.createToken(this.card)
-        .then(result => {
+        .then((result) => {
           console.log('tokenize token result', result);
           if (result.error) {
             this.setState({ error: result.error.message, loading: false });
@@ -32,7 +33,7 @@ export class StripeField extends Component {
               });
           }
         });
-    })
+    });
   }
 
   componentWilUnmount() {
@@ -54,7 +55,7 @@ export class StripeField extends Component {
           )
         }
         <label htmlFor="card-element">
-          <div className="stripe-card" id="card-element"></div>
+          <div className="stripe-card" id="card-element" />
         </label>
         <div className="text-center">
           <Button bsStyle="success" onClick={this.handleClick} disabled={loading}>
@@ -63,9 +64,12 @@ export class StripeField extends Component {
           </Button>
         </div>
       </div>
-    )
+    );
   }
-
 }
+
+StripeField.propTypes = {
+  addCreditCard: PropTypes.func.isRequired
+};
 
 export default StripeField;

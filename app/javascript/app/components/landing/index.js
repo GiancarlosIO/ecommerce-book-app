@@ -7,7 +7,7 @@ export class Landing extends Component {
   render() {
     return (
       <HomeSection />
-    )
+    );
   }
 }
 

@@ -1,0 +1,49 @@
+.product-enter {
+  opacity: 0.01;
+}
+
+.product-enter.product-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.product-leave {
+  opacity: 1;
+}
+
+.product-leave.product-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+// fadeIn and page transitions
+.fadeIn-enter, .page-enter {
+  opacity: 0.01;
+}
+
+.fadeIn-enter.fadeIn-enter-active, .page-enter.page-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.fadeIn-leave {
+  opacity: 1;
+}
+.page-leave {
+  opacity: 1;
+  display: none;
+}
+
+.fadeIn-leave.fadeIn-leave-active, .page-leave.page-leave-active {
+  opacity: 0.01;
+  transition: opacity 100ms ease-in;
+}
+
+.fadeIn-appear, .page-appear {
+  opacity: 0.01;
+}
+
+.fadeIn-appear.fadeIn-appear-active, .page-appear.page-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}

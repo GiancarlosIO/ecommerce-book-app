@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  igv: 1
+  discount: 1
+  subtotal: 1
+  total: 1
+
+two:
+  user: two
+  igv: 1
+  discount: 1
+  subtotal: 1
+  total: 1
