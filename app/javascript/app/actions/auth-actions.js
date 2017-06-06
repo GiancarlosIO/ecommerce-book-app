@@ -8,7 +8,8 @@ import {
   SET_CREDIT_CARDS,
   SET_DEFAULT_CARD,
   ADD_CREDIT_CARD,
-  REMOVE_CREDIT_CARD
+  REMOVE_CREDIT_CARD,
+  SET_LOADING_USER_ACTIONS
 } from '../constants/';
 
 import {
@@ -23,9 +24,13 @@ export const unauthUser = () => ({ type: UNAUTH_USER });
 export const setCreditCards = cards => ({ type: SET_CREDIT_CARDS, payload: cards });
 export const setDefaultCard = card => ({ type: SET_DEFAULT_CARD, payload: card });
 export const addCreditCard = card => ({ type: ADD_CREDIT_CARD, payload: card });
-export const removeCreditCard = id => ({ type: REMOVE_CREDIT_CARD, payload: id });
+export const removeCreditCard = (id, defaultId) => ({
+  type: REMOVE_CREDIT_CARD,
+  payload: { id, defaultId }
+});
 export const clearAuthErrors = () => ({ type: CLEAR_AUTH_ERRORS });
 export const setCardMessage = message => ({ type: SET_ADD_CARD_MESSAGE, payload: message });
+export const setLoadingUserActions = value => ({ type: SET_LOADING_USER_ACTIONS, payload: value });
 
 // Async actions
 
@@ -131,8 +136,10 @@ export const updateCard = id =>
         console.log('update card successfully', response);
         const card = getState().auth.creditCards[id];
         dispatch(setDefaultCard(card));
+        dispatch(setLoadingUserActions(false));
       })
       .catch((error) => {
+        dispatch(setLoadingUserActions(false));
         console.log('error to update card', error);
         if (error.response.status === 401) {
           dispatch(unauthUser());
@@ -145,22 +152,24 @@ export const deleteCreditCard = id =>
     CardAPI.delete(id).request
       .then((response) => {
         console.log('card deleted successfully', response);
-        dispatch(removeCreditCard(id));
+        dispatch(removeCreditCard(id, response.data.cardDefaultId));
         dispatch(setCardMessage({
           type: 'card',
           status: 'success',
           message: 'Credit card deleted successfully'
         }));
+        dispatch(setLoadingUserActions(false));
       })
       .catch((error) => {
         console.log('error to delete creditCard', error.response);
+        dispatch(setLoadingUserActions(false));
         if (error.response.status === 401) {
           dispatch(unauthUser());
           resetSession();
         }
         dispatch(setCardMessage({
           type: 'card',
-          status: 'error',
+          status: 'danger',
           message: 'Error to delete card, reload the page and try again.'
         }));
       });
