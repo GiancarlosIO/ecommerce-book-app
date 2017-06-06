@@ -79,7 +79,6 @@ class User < ApplicationRecord
 
   # Create charges - payments
   def create_charge(cart)
-    puts "\n\n\n\n\n\n amount: #{(cart[:amount].to_f * 100).to_i} \n\n\n\n\n"
     StripeHelper.create_charge(self.customer_id, cart[:card_id], cart[:amount], cart[:currency])
     user_cart = self.carts.create(
       igv: cart[:igv],
