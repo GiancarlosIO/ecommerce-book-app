@@ -35,7 +35,8 @@ class Api::V1::CardsController < Api::V1::ApiController
 
   def destroy
     if @current_user.delete_card(@card.identifier)
-      render json: { message: 'Credit card deleted' }, status: 200
+      card_id = @current_user.cards.where(default: true).first.id
+      render json: { message: 'Credit card deleted', cardDefaultId: card_id }, status: 200
     else
       render json: { error: { card: 'Can\'t delete the card' } }, status: :unprocessable_entity
     end
