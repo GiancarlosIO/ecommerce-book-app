@@ -8,7 +8,8 @@ import {
   SET_CREDIT_CARDS,
   SET_DEFAULT_CARD,
   ADD_CREDIT_CARD,
-  REMOVE_CREDIT_CARD
+  REMOVE_CREDIT_CARD,
+  SET_LOADING_USER_ACTIONS
 } from '../constants/';
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
     email: '',
     username: ''
   },
+  loadingUserActions: false,
   creditCardDefault: undefined,
   creditCards: undefined,
   cardMessage: undefined
@@ -83,6 +85,12 @@ const AuthReducer = (state = initialState, action) => {
         creditCards
       };
     }
+    case SET_LOADING_USER_ACTIONS: {
+      return {
+        ...state,
+        loadingUserActions: action.payload
+      };
+    }
     case ADD_CREDIT_CARD:
       return {
         ...state,
@@ -93,16 +101,15 @@ const AuthReducer = (state = initialState, action) => {
       };
     case REMOVE_CREDIT_CARD: {
       const cards = { ...state.creditCards };
-      const card = { ...cards[action.payload] };
-      delete cards[action.payload];
+      const card = { ...cards[action.payload.id] };
+      delete cards[action.payload.id];
       if (card.default) {
-        const keys = Object.keys(cards);
-        const lastCard = cards.length > 0 && cards[keys[0]];
-        if (cards.length > 1) lastCard.default = true;
+        cards[action.payload.defaultId].default = true;
+        console.log('card remove', cards);
         return {
           ...state,
           creditCards: cards,
-          creditCardDefault: lastCard
+          creditCardDefault: cards[action.payload.defaultId]
         };
       }
       return {

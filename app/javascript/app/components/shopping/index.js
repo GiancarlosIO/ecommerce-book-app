@@ -8,6 +8,8 @@ import {
   Modal
 } from 'react-bootstrap';
 
+import Loader from '../ui/loader';
+
 import {
   setCartQuantity,
   deleteCart,
@@ -19,7 +21,8 @@ import {
   updateCard,
   setCardMessage,
   getCreditCards,
-  createCreditCard
+  createCreditCard,
+  setLoadingUserActions
 } from '../../actions/auth-actions';
 
 import {
@@ -55,7 +58,7 @@ export class Shopping extends Component {
 
   state = {
     showModal: false,
-    loadingCards: false,
+    loadingCards: false
   }
 
   componentDidMount() {
@@ -63,7 +66,10 @@ export class Shopping extends Component {
       .then(() => this.setState({ loadingCards: false }));
   }
 
-  setCardDefault = id => this.props.dispatch(updateCard(id));
+  setCardDefault = (id) => {
+    this.props.dispatch(setLoadingUserActions(true));
+    this.props.dispatch(updateCard(id));
+  };
   handleChange = (id, quantity) => {
     this.props.dispatch(setCartQuantity(id, quantity));
     this.props.dispatch(calculateTotal());
@@ -84,7 +90,11 @@ export class Shopping extends Component {
 
   hideModal = () => this.setState({ showModal: false });
   showModal = () => this.setState({ showModal: true });
-  deleteCard = id => this.props.dispatch(deleteCreditCard(id));
+  deleteCard = (id) => {
+    console.log('deleting from shopping');
+    this.props.dispatch(setLoadingUserActions(true));
+    this.props.dispatch(deleteCreditCard(id));
+  };
   clearMessage = () => this.props.dispatch(setCardMessage(null));
 
   createShop = () => {
@@ -97,12 +107,25 @@ export class Shopping extends Component {
     };
     console.log('creating cart', cart);
     this.props.dispatch(setLoadingCharge(true));
-    this.props.dispatch(createCharge(cart));
+    this.setState({ showModal: false }, () => {
+      this.props.dispatch(createCharge(cart));
+    });
   }
 
+  chargeSuccess = () => window.location.replace('/products');
+
   render() {
-    console.log('rendering shopping');
-    const { carts, subtotal, total, creditCards, message, loadingCharge } = this.props;
+    console.log('rendering shopping props', this.props);
+    const {
+      carts,
+      subtotal,
+      total,
+      creditCards,
+      message,
+      loadingCharge,
+      loadingUserActions,
+      chargeSuccess
+    } = this.props;
     const { showModal, loadingCards } = this.state;
 
     return Object.keys(carts).length > 0 ?
@@ -113,7 +136,11 @@ export class Shopping extends Component {
               Products in Cart:
             </h2>
           </div>
-          <CartList carts={carts} handleChange={this.handleChange} deleteCart={this.deleteCart} />
+          <CartList
+            carts={carts}
+            handleChange={this.handleChange}
+            deleteCart={this.deleteCart}
+          />
           <TotalContainer>
             <div className="width-min-200">
               <span className="display-inBlock width-min-100">
@@ -145,7 +172,7 @@ export class Shopping extends Component {
               Check-out
             </Button>
           </ShoppingActions>
-          <Modal show={showModal} onHide={this.hideModal} size="large">
+          <Modal show={showModal && !loadingCharge} onHide={this.hideModal} size="large">
             <Modal.Header closeButton>
               <Modal.Title>Select a credit-card for payment:</Modal.Title>
             </Modal.Header>
@@ -156,7 +183,9 @@ export class Shopping extends Component {
                 message={message}
                 clearMessage={this.clearMessage}
               />
+              <h2>asdasdasd</h2>
               <Cards
+                loadingUserActions={loadingUserActions}
                 loading={loadingCards}
                 message={message}
                 creditCards={creditCards}
@@ -179,6 +208,23 @@ export class Shopping extends Component {
               </Button>
             </Modal.Footer>
           </Modal>
+          <Loader show={loadingCharge} type="rect" />
+          <Modal show={chargeSuccess} >
+            <Modal.Header>
+              <Modal.Title>Your purchase was made successfully</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>You have purchase the following products:</p>
+              <ul>
+                {
+                  Object.keys(carts).map(i => (<li key={i}> {`${carts[i].name} (x${carts[i].quantity})`} </li>))
+                }
+              </ul>
+              <Button bsStyle="success" onClick={this.chargeSuccess}>
+                Got it
+              </Button>
+            </Modal.Body>
+          </Modal>
         </ShoppingContainer>
       ) :
       (
@@ -193,7 +239,9 @@ export class Shopping extends Component {
 Shopping.defaultProps = {
   message: {},
   creditCards: {},
-  creditCardDefault: {}
+  creditCardDefault: {},
+  loadingUserActions: false,
+  loadingCharge: false
 };
 
 Shopping.propTypes = {
@@ -228,17 +276,21 @@ Shopping.propTypes = {
     message: PropTypes.string,
     status: PropTypes.string,
     type: PropTypes.string
-  })
+  }),
+  loadingUserActions: PropTypes.bool,
+  chargeSuccess: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
+  loadingUserActions: state.auth.loadingUserActions,
   creditCards: state.auth.creditCards,
   creditCardDefault: state.auth.creditCardDefault,
   message: state.auth.cardMessage,
   carts: state.shop.productsInCart,
   subtotal: state.shop.subtotal,
   total: state.shop.total,
-  loadingCharge: state.charge.loadingCharge
+  loadingCharge: state.charge.loadingCharge,
+  chargeSuccess: state.charge.chargeSuccess
 });
 
 export default connect(mapStateToProps)(Shopping);
